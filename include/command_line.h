@@ -241,7 +241,7 @@ private:
     };
 
 #if defined(__LLVM_SYCL_CUDA__)
-    if(device_selector != "gpu") {
+    if(device_type.compare("gpu") != 0) {
       throw std::invalid_argument{"Only the 'gpu' device is supported on LLVM CUDA"};
     }
     return cl::sycl::queue{CUDASelector{}, getQueueProperties()};

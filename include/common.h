@@ -47,9 +47,15 @@ public:
       "problem-size", std::to_string(args.problem_size));
     args.result_consumer->consumeResult(
       "local-size", std::to_string(args.local_size));
+    //not currently implemented in triSYCL
+#ifdef __TRISYCL__
+    args.result_consumer->consumeResult(
+      "device-name", "unknown");
+#else
     args.result_consumer->consumeResult(
       "device-name", args.device_queue.get_device()
                            .template get_info<cl::sycl::info::device::name>());
+#endif
     args.result_consumer->consumeResult(
       "sycl-implementation", this->getSyclImplementation());
 
