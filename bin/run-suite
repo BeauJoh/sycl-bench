@@ -43,7 +43,7 @@ default_profile = {
   'default-options' : {
     '--size' : create_log_range(2**10, 2**10),
     '--local' : create_log_range(256,256),
-    '--num-runs' : 10,
+    '--num-runs' : 50,
     '--output' : output_file
   },
   'default-flags' : set([]),
@@ -82,10 +82,10 @@ default_profile = {
       '--size' : create_log_range(2**20, 2**20)
     },
     'dag_task_throughput_independent' : {
-      '--size' : create_log_range(2**10, 2**16)
+      '--size' : create_log_range(2**10, 2**10)
     },
     'dag_task_throughput_sequential' : {
-      '--size' : create_log_range(2**10, 2**16)
+      '--size' : create_log_range(2**10, 2**10)
     },
     'reduction' : {
       '--size' : create_log_range(2**20, 2**20)
@@ -129,6 +129,7 @@ def construct_profile(overridden_options_dict,
 profiles = {
   'default': default_profile,
   'quicktest' : construct_profile({}, max_allowed_runtime=1.0),
+  'cpu-quicktest' : construct_profile({'--device':'cpu'}, max_allowed_runtime=1.0),
   'cpu' : construct_profile({'--device':'cpu'}),
   'gpu' : construct_profile({'--device':'gpu'}),
   'cpu-noverify' : construct_profile({'--device':'cpu'},['--no-verification']),
