@@ -67,8 +67,8 @@ public:
           int k = 0;
           for(int i = -1; i<2; i++)
             for(int j = -1; j<2; j++) {
-              uint xs = s::min(s::max(x+j, 0), static_cast<int>(size_-1)); // borders are handled here with extended values
-              uint ys = s::min(s::max(y+i, 0), static_cast<int>(size_-1));
+              uint xs = s::min(s::max(static_cast<s::cl_int>(x+j), static_cast<s::cl_int>(0)), static_cast<int>(size_-1)); // borders are handled here with extended values
+              uint ys = s::min(s::max(static_cast<s::cl_int>(y+i), static_cast<s::cl_int>(0)), static_cast<int>(size_-1));
               window[k] =in[ {xs,ys} ];
               k++;
             }

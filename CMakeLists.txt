@@ -30,6 +30,7 @@ set(supported_implementations
   LLVM
   LLVM-CUDA
   triSYCL
+  sycl-gtx
 )
 
 list(FIND supported_implementations ${SYCL_IMPL} impl_idx)
@@ -47,6 +48,8 @@ elseif(SYCL_IMPL STREQUAL "LLVM-CUDA")
   find_package(DPC++CUDA MODULE REQUIRED)
 elseif(SYCL_IMPL STREQUAL "triSYCL")
   find_package(TriSYCL MODULE REQUIRED)
+elseif(SYCL_IMPL STREQUAL "sycl-gtx")
+  find_package(sycl-gtx MODULE REQUIRED)
 endif()
 
 set(benchmarks
@@ -62,6 +65,7 @@ set(benchmarks
   single-kernel/sobel5.cpp
   single-kernel/sobel7.cpp
   single-kernel/vec_add.cpp
+  single-kernel/vec_add_wgp.cpp
   single-kernel/lin_reg_error.cpp
   single-kernel/lin_reg_coeff.cpp
   single-kernel/kmeans.cpp
@@ -103,6 +107,7 @@ foreach(benchmark IN LISTS benchmarks)
   #if(SYCL_IMPL STREQUAL "ComputeCpp" AND COMPUTECPP_BITCODE STREQUAL "ptx64")
   #  target_compile_definitions(${target} PRIVATE SYCL_BENCH_ENABLE_QUEUE_PROFILING)
   #endif()
+
   if(SYCL_IMPL STREQUAL "LLVM")
     add_sycl_to_target(TARGET ${target})
     target_compile_definitions(${target} PRIVATE __LLVM_SYCL__)
@@ -117,6 +122,11 @@ foreach(benchmark IN LISTS benchmarks)
     set_target_cxx_std(${target} "17")
     add_sycl_to_target(${target})
     target_compile_definitions(${target} PRIVATE __TRISYCL__)
+  endif()
+
+  if(SYCL_IMPL STREQUAL "sycl-gtx")
+    add_sycl_to_target(${target})
+    target_compile_definitions(${target} PRIVATE __SYCL_GTX__)
   endif()
 
   install(TARGETS ${target} RUNTIME DESTINATION bin/benchmarks/)

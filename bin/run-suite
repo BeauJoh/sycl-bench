@@ -43,7 +43,7 @@ default_profile = {
   'default-options' : {
     '--size' : create_log_range(2**10, 2**10),
     '--local' : create_log_range(256,256),
-    '--num-runs' : 50,
+    '--num-runs' : 250,
     '--output' : output_file
   },
   'default-flags' : set([]),
@@ -76,7 +76,8 @@ default_profile = {
       '--size' : create_log_range(2**20, 2**20)
     },
     'vec_add' : {
-      '--size' : create_log_range(2**20, 2**20)
+      '--size' : create_log_range(2**1, 2**20)
+      #'--size' : create_log_range(2**1, 2**30)
     },
     'blocked_transform' : {
       '--size' : create_log_range(2**20, 2**20)

@@ -20,7 +20,11 @@ template <class BufferType>
 inline void forceDataTransfer(cl::sycl::queue& q, BufferType b) {
   q.submit([&](cl::sycl::handler& cgh) {
     auto acc = b.template get_access<cl::sycl::access::mode::read>(cgh);
+#ifdef __SYCL_GTX__
+    cgh.single_task<class forced_data_transfer>(InitializationDummyKernel{acc});
+#else
     cgh.single_task(InitializationDummyKernel{acc});
+#endif
   });
   q.wait_and_throw();
 }
