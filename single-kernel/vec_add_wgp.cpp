@@ -49,8 +49,12 @@ public:
       auto in2 = input2_buf.template get_access<s::access::mode::read>(cgh);
       // Use discard_write here, otherwise the content of the host buffer must first be copied to device
       auto out = output_buf.template get_access<s::access::mode::discard_write>(cgh);
-      cl::sycl::range<1> number_of_workgroups (args.problem_size / args.local_size);
-      cl::sycl::range<1> workgroup_size (args.local_size);
+
+      size_t work_group_size = args.local_size;
+      size_t num_work_groups = (args.problem_size + work_group_size - 1) / work_group_size;
+      std::cout << "Problem size=" <<args.problem_size<< " # Work Groups=" <<num_work_groups<< " of " << work_group_size << " big" << std::endl;
+      cl::sycl::range<1> number_of_workgroups(num_work_groups);// (args.problem_size / args.local_size);
+      cl::sycl::range<1> workgroup_size(work_group_size);//(args.local_size);
 
       cgh.parallel_for_work_group<class VecAddKernel<T>>(number_of_workgroups, workgroup_size,
         [=](cl::sycl::group<1> group)
@@ -64,6 +68,7 @@ public:
           });
         });
     }));
+
   }
 
   bool verify(VerificationSetting &ver) {

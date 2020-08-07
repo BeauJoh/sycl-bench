@@ -29,15 +29,15 @@ def turn_on_opencl():
     except:
         print("Couldn't disable OpenCL")
 
-sycl_runtime = [{'LD_LIBRARY_PATH':'/opt/hipSYCL/llvm/lib', 'directory':'new-build-hipsycl-cpu', 'runtime':'hipSYCL-cpu'},
+sycl_runtime = [#{'LD_LIBRARY_PATH':'/opt/hipSYCL/llvm/lib', 'directory':'new-build-hipsycl-cpu', 'runtime':'hipSYCL-cpu'},
                 #{'LD_LIBRARY_PATH':'/tmp/llvm-sycl/build/lib', 'directory':'new-build-dpc++-cpu', 'runtime':'DPC++-cpu'},
                 #{'LD_LIBRARY_PATH':'', 'directory':'new-build-trisycl-cpu','runtime':'triSYCL-cpu'},
-                #{'LD_LIBRARY_PATH':'/tmp/ComputeCpp-latest/lib', 'directory':'new-build-computecpp','runtime':'ComputeCPP-cpu'},
+                {'LD_LIBRARY_PATH':'/tmp/ComputeCpp-latest/lib', 'directory':'new-build-computecpp','runtime':'ComputeCPP-cpu'},
                 #{'LD_LIBRARY_PATH':'/tmp/ComputeCpp-latest/lib', 'directory':'new-build-computecpp','runtime':'ComputeCPP-opencl'},
                 ]
 benchmark_executable = 'vec_add_wgp'
 
-options = { '--size' : create_log_range(2**30, 2**30),
+options = { '--size' : create_log_range(2**25, 2**25),
             '--num-runs' : 50,
             '--output' : './find_optimal_workgroup_size.csv'
         }
@@ -52,7 +52,7 @@ for runtime in sycl_runtime:
     print("Running: " + this_executable)
     for size in options['--size']:
         print("Size: " + str(size))
-        for localsize in create_log_range(2**8, 2**30):
+        for localsize in create_log_range(2**8, size):
             print("Local Size: " + str(localsize))
 
             args = []

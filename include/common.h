@@ -45,6 +45,12 @@ public:
 
     args.result_consumer->consumeResult(
       "problem-size", std::to_string(args.problem_size));
+
+    //use the devices default maximum work-group size if not specified
+    if(args.local_size == 0){
+        args.local_size = args.device_queue.get_device().template get_info<cl::sycl::info::device::max_work_group_size>();
+    }
+
     args.result_consumer->consumeResult(
       "local-size", std::to_string(args.local_size));
     //not currently implemented in triSYCL
