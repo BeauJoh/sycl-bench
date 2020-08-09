@@ -53,9 +53,13 @@ for runtime in sycl_runtime:
     print("Running: " + this_executable)
     for size in options['--size']:
         print("Size: " + str(size))
-        for localsize in create_log_range(2**8, size):
+        for localsize in create_log_range(2**5, 2**24):
             print("Local Size: " + str(localsize))
+
+            ##uncomment to force the OpenMP runtime to explicitly use the same parallelism expressed in SYCL
             print("OMP_NUM_THREADS=" + str(int(size/localsize)))
+            os.environ['OMP_NUM_THREADS'] = str(int(size/localsize))
+
             args = []
             for arg in options:
               if not isinstance(options[arg], list):
