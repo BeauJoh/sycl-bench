@@ -67,6 +67,9 @@ set(benchmarks
   single-kernel/vec_add.cpp
   single-kernel/vec_add_wgp.cpp
   single-kernel/vec_add_serial.cpp
+  single-kernel/matmul.cpp
+  single-kernel/matmul_serial.cpp
+  single-kernel/matmul_wgp.cpp
   single-kernel/lin_reg_error.cpp
   single-kernel/lin_reg_coeff.cpp
   single-kernel/kmeans.cpp

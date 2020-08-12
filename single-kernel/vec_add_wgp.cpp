@@ -62,6 +62,7 @@ public:
           //group.get_id(0);
           //printf("group id: %zu\n", group.get_id(0));
           group.parallel_for_work_item([&](cl::sycl::h_item<1> item) {
+            //printf("local id: %zu\n", item.get_local_id(0));
             size_t gid= item.get_global_id(0);
             //printf("global thread id: %zu\n", item.get_global_id(0));
             out[gid] = in1[gid] + in2[gid];
