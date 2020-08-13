@@ -56,7 +56,15 @@ public:
       cl::sycl::range<1> number_of_workgroups(num_work_groups);// (args.problem_size / args.local_size);
       cl::sycl::range<1> workgroup_size(work_group_size);//(args.local_size);
 
-      cgh.parallel_for_work_group<class VecAddKernel<T>>(number_of_workgroups, workgroup_size,
+      //wrong for hipsycl and trisycl:
+      //cgh.parallel_for<class VecAddKernel<T>>(cl::sycl::nd_range<1>(cl::sycl::range<1>(args.problem_size), cl::sycl::range<1>(args.local_size)),
+      //right for hipsycl:
+      cgh.parallel_for<class VecAddKernel<T>>(cl::sycl::nd_range<1>(cl::sycl::range<1>(args.problem_size), cl::sycl::range<1>(num_work_groups)),
+          [=](cl::sycl::nd_item<1> item)
+          {
+              out[item.get_global_id()] = in1[item.get_global_id()] + in2[item.get_global_id()];
+          });
+      /*cgh.parallel_for_work_group<class VecAddKernel<T>>(number_of_workgroups, workgroup_size,
         [=](cl::sycl::group<1> group)
         {
           //group.get_id(0);
@@ -68,6 +76,7 @@ public:
             out[gid] = in1[gid] + in2[gid];
           });
         });
+        */
     }));
 
   }
