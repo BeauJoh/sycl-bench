@@ -49,34 +49,13 @@ public:
       auto in2 = input2_buf.template get_access<s::access::mode::read>(cgh);
       // Use discard_write here, otherwise the content of the host buffer must first be copied to device
       auto out = output_buf.template get_access<s::access::mode::discard_write>(cgh);
+      cl::sycl::range<1> ndrange {args.problem_size};
 
-      size_t work_group_size = args.local_size;
-      size_t num_work_groups = (args.problem_size + work_group_size - 1) / work_group_size;
-      std::cout << "Problem size=" <<args.problem_size<< " # Work Groups=" <<num_work_groups<< " of " << work_group_size << " big" << std::endl;
-      cl::sycl::range<1> number_of_workgroups(num_work_groups);// (args.problem_size / args.local_size);
-      cl::sycl::range<1> workgroup_size(work_group_size);//(args.local_size);
-
-      //wrong for hipsycl and trisycl:
-      //cgh.parallel_for<class VecAddKernel<T>>(cl::sycl::nd_range<1>(cl::sycl::range<1>(args.problem_size), cl::sycl::range<1>(args.local_size)),
-      //right for hipsycl:
-      cgh.parallel_for<class VecAddKernel<T>>(cl::sycl::nd_range<1>(cl::sycl::range<1>(args.problem_size), cl::sycl::range<1>(num_work_groups)),
-          [=](cl::sycl::nd_item<1> item)
-          {
-              out[item.get_global_id()] = in1[item.get_global_id()] + in2[item.get_global_id()];
-          });
-      /*cgh.parallel_for_work_group<class VecAddKernel<T>>(number_of_workgroups, workgroup_size,
-        [=](cl::sycl::group<1> group)
+      cgh.parallel_for<class VecAddKernel<T>>(ndrange,
+        [=](cl::sycl::id<1> gid) 
         {
-          //group.get_id(0);
-          //printf("group id: %zu\n", group.get_id(0));
-          group.parallel_for_work_item([&](cl::sycl::h_item<1> item) {
-            //printf("local id: %zu\n", item.get_local_id(0));
-            size_t gid= item.get_global_id(0);
-            //printf("global thread id: %zu\n", item.get_global_id(0));
-            out[gid] = in1[gid] + in2[gid];
-          });
+          out[gid] = in1[gid] + in2[gid];
         });
-        */
     }));
 
   }
@@ -98,7 +77,7 @@ public:
   
   static std::string getBenchmarkName() {
     std::stringstream name;
-    name << "VectorAddition_";
+    name << "VecAdd_BKP_";
     name << ReadableTypename<T>::name;
     return name.str();
   }
@@ -107,9 +86,9 @@ public:
 int main(int argc, char** argv)
 {
   BenchmarkApp app(argc, argv);
-  app.run<VecAddBench<int>>();
+  //app.run<VecAddBench<int>>();
   //app.run<VecAddBench<long long>>();  
-  //app.run<VecAddBench<float>>();
+  app.run<VecAddBench<float>>();
   //app.run<VecAddBench<double>>();
   return 0;
 }

@@ -58,7 +58,7 @@ public:
   
   static std::string getBenchmarkName() {
     std::stringstream name;
-    name << "VectorAddition_";
+    name << "VecAdd_Serial_";
     name << ReadableTypename<T>::name;
     return name.str();
   }

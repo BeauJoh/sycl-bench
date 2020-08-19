@@ -64,12 +64,14 @@ set(benchmarks
   single-kernel/sobel.cpp
   single-kernel/sobel5.cpp
   single-kernel/sobel7.cpp
-  single-kernel/vec_add.cpp
-  single-kernel/vec_add_wgp.cpp
+  single-kernel/vec_add_bkp.cpp
   single-kernel/vec_add_serial.cpp
-  single-kernel/matmul.cpp
+  single-kernel/vec_add_wgp.cpp
+  single-kernel/vec_add_hdp.cpp
+  single-kernel/matmul_bkp.cpp
   single-kernel/matmul_serial.cpp
   single-kernel/matmul_wgp.cpp
+  single-kernel/matmul_hdp.cpp
   single-kernel/lin_reg_error.cpp
   single-kernel/lin_reg_coeff.cpp
   single-kernel/kmeans.cpp
