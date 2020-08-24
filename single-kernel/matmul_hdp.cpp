@@ -21,7 +21,7 @@ void multiply(cl::sycl::queue& queue, cl::sycl::buffer<T, 2>& mat_a, cl::sycl::b
 
     size_t workgroup_size = local_size;
     size_t num_workgroups = (mat_size + workgroup_size - 1) / workgroup_size;
-    std::cout << "Problem size=" <<mat_size<< "x"<<mat_size << " # Work Groups=" <<num_workgroups<<"x"<<num_workgroups<<"("<<(num_workgroups*num_workgroups)<<")"<< " of " << workgroup_size<<"x"<<workgroup_size << " big" << std::endl;
+    //std::cout << "Problem size=" <<mat_size<< "x"<<mat_size << " # Work Groups=" <<num_workgroups<<"x"<<num_workgroups<<"("<<(num_workgroups*num_workgroups)<<")"<< " of " << workgroup_size<<"x"<<workgroup_size << " big" << std::endl;
 
     cgh.parallel_for_work_group<class MatmulHDP<T>>(cl::sycl::range<2>(num_workgroups, num_workgroups),cl::sycl::range<2>(workgroup_size, workgroup_size), [=](cl::sycl::group<2> group)
         {
