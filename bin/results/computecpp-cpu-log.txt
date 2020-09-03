@@ -1,0 +1,627 @@
+root@whale:/workspace/codes/sycl-bench# cd new-build-computecpp-cpu/
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# cmake .. -DSYCL_IMPL=ComputeCpp -DCMAKE_PREFIX_PATH=/tmp/ComputeCpp-latest
+-- The C compiler identification is Clang 9.0.1
+-- The CXX compiler identification is Clang 9.0.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /llvm-9.0.1/bin/clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /llvm-9.0.1/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Looking for CL_VERSION_2_2
+-- Looking for CL_VERSION_2_2 - found
+-- Found OpenCL: /usr/lib/x86_64-linux-gnu/libOpenCL.so (found version "2.2")
+-- platform - your system can support ComputeCpp
+-- Found ComputeCpp: /tmp/ComputeCpp-latest (found version "CE 1.3.0")
+-- compute++ flags - -O2;-mllvm;-inline-threshold=1000;-intelspirmetadata;-sycl-target;spir64
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /workspace/codes/sycl-bench/new-build-computecpp-cpu
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# mv /etc/OpenCL/vendors/amd.icd /etc/Ope
+nCL/vendors/amd.icdX
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# cd new-build-computecpp-cpu/^C
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# ls
+CMakeCache.txt  CMakeFiles  Makefile  cmake_install.cmake
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# make matmul_serial matmul_wgp matmul_bkp
+Scanning dependencies of target matmul_serial_matmul_serial.cpp_0_ih
+[ 50%] Building ComputeCpp integration header file /workspace/codes/sycl-bench/new-build-computecpp-cpu/matmul_serial_matmul_serial.cpp.sycl
+[ 50%] Built target matmul_serial_matmul_serial.cpp_0_ih
+Scanning dependencies of target matmul_serial
+[ 50%] Building CXX object CMakeFiles/matmul_serial.dir/single-kernel/matmul_serial.cpp.o
+[100%] Linking CXX executable matmul_serial
+[100%] Built target matmul_serial
+Scanning dependencies of target matmul_wgp_matmul_wgp.cpp_0_ih
+[ 50%] Building ComputeCpp integration header file /workspace/codes/sycl-bench/new-build-computecpp-cpu/matmul_wgp_matmul_wgp.cpp.sycl
+remark: [Computecpp:CC0027]: Some memcpy/memset intrinsics added by the llvm optimizer were replaced by
+      serial functions. This is a workaround for OpenCL drivers that do not support those intrinsics.
+      This may impact performance, consider using -no-serial-memop. [-Rsycl-serial-memop]
+[ 50%] Built target matmul_wgp_matmul_wgp.cpp_0_ih
+Scanning dependencies of target matmul_wgp
+[100%] Building CXX object CMakeFiles/matmul_wgp.dir/single-kernel/matmul_wgp.cpp.o
+[100%] Linking CXX executable matmul_wgp
+[100%] Built target matmul_wgp
+Scanning dependencies of target matmul_bkp_matmul_bkp.cpp_0_ih
+[ 33%] Building ComputeCpp integration header file /workspace/codes/sycl-bench/new-build-computecpp-cpu/matmul_bkp_matmul_bkp.cpp.sycl
+remark: [Computecpp:CC0027]: Some memcpy/memset intrinsics added by the llvm optimizer were replaced by
+      serial functions. This is a workaround for OpenCL drivers that do not support those intrinsics.
+      This may impact performance, consider using -no-serial-memop. [-Rsycl-serial-memop]
+[ 33%] Built target matmul_bkp_matmul_bkp.cpp_0_ih
+Scanning dependencies of target matmul_bkp
+[ 66%] Building CXX object CMakeFiles/matmul_bkp.dir/single-kernel/matmul_bkp.cpp.o
+[100%] Linking CXX executable matmul_bkp
+[100%] Built target matmul_bkp
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=32 --num-r
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Host Device
+sycl-implementation: ComputeCpp
+^C./matmul_wgp: Segmentation fault
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=32 --num-r':
+
+         285676888      cache-references
+          33608691      cache-misses              #   11.765 % of all cache refs
+
+       4.442130580 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --local=32 --num-runs=100
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.647465 [s]
+run-time-stddev: 0.000923 [s]
+run-time-median: 4.647141 [s]
+run-time-min: 4.646985 [s]
+run-time-samples: "4.646985 4.646988 4.646993 4.647004 4.647008 4.647016 4.647016 4.647017 4.647019 4.647019 4.647021 4.647027 4.647029 4.647029 4.647031 4.647036 4.647041 4.647041 4.647044 4.647049 4.647056 4.647057 4.647059 4.647060 4.647062 4.647063 4.647064 4.647066 4.647067 4.647067 4.647071 4.647072 4.647073 4.647078 4.647080 4.647081 4.647083 4.647085 4.647087 4.647089 4.647091 4.647095 4.647100 4.647108 4.647108 4.647112 4.647112 4.647118 4.647129 4.647133 4.647141 4.647142 4.647145 4.647146 4.647147 4.647147 4.647157 4.647157 4.647165 4.647168 4.647170 4.647170 4.647173 4.647180 4.647181 4.647191 4.647202 4.647207 4.647215 4.647217 4.647266 4.647276 4.647297 4.647307 4.647326 4.647341 4.647350 4.647378 4.647379 4.647425 4.647438 4.647445 4.647456 4.647476 4.647500 4.647503 4.647509 4.647566 4.648478 4.648663 4.648665 4.648845 4.649263 4.649359 4.649643 4.650111 4.650444 4.651068 4.651143 4.651251"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_serial --size=1024 --local=32 --num-runs=100':
+
+      107630444080      cache-references
+           6071672      cache-misses              #    0.006 % of all cache refs
+
+     464.995570272 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_bkp --size=1024 --local=32 --num-runs=100
+********** Results for MatMul_BKP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Host Device
+sycl-implementation: ComputeCpp
+^C./matmul_bkp: Segmentation fault
+
+ Performance counter stats for './matmul_bkp --size=1024 --local=32 --num-runs=100':
+
+         337121309      cache-references
+            577795      cache-misses              #    0.171 % of all cache refs
+
+       1.570747701 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_bkp --size=1024 --num-runs=100
+********** Results for MatMul_BKP_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.662819 [s]
+run-time-stddev: 0.004640 [s]
+run-time-median: 4.661067 [s]
+run-time-min: 4.657334 [s]
+run-time-samples: "4.657334 4.657335 4.657410 4.657608 4.658098 4.658227 4.658283 4.658313 4.658405 4.658426 4.658549 4.658845 4.658886 4.659149 4.659207 4.659262 4.659465 4.659472 4.659521 4.659590 4.659655 4.659666 4.659834 4.659912 4.659917 4.659923 4.659951 4.659952 4.659976 4.659989 4.660104 4.660104 4.660152 4.660183 4.660274 4.660387 4.660413 4.660430 4.660431 4.660440 4.660494 4.660536 4.660615 4.660664 4.660762 4.660861 4.660894 4.660904 4.660945 4.660984 4.661067 4.661090 4.661137 4.661220 4.661331 4.661408 4.661566 4.661687 4.661759 4.661973 4.662026 4.662214 4.662215 4.662345 4.662703 4.662706 4.662728 4.662911 4.663090 4.663307 4.663315 4.663524 4.663599 4.664020 4.664080 4.664227 4.664458 4.665105 4.665241 4.665443 4.666283 4.666345 4.667533 4.667583 4.669613 4.669613 4.669798 4.669882 4.669897 4.670091 4.670356 4.670765 4.670829 4.671282 4.671769 4.672356 4.673103 4.673141 4.676409 4.680979"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_bkp --size=1024 --num-runs=100':
+
+      107712405040      cache-references
+          58358538      cache-misses              #    0.054 % of all cache refs
+
+     467.975766368 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1 --num-runs=100
+Workload failed: No such file or directory
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1 --num-runs=100
+Workload failed: No such file or directory
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# make matmul_serial matmul_wgp matmul_bkp matmul_hdp
+[ 50%] Built target matmul_serial_matmul_serial.cpp_0_ih
+[100%] Built target matmul_serial
+[ 50%] Built target matmul_wgp_matmul_wgp.cpp_0_ih
+[100%] Built target matmul_wgp
+[ 33%] Built target matmul_bkp_matmul_bkp.cpp_0_ih
+[100%] Built target matmul_bkp
+Scanning dependencies of target matmul_hdp_matmul_hdp.cpp_0_ih
+[ 50%] Building ComputeCpp integration header file /workspace/codes/sycl-bench/new-build-computecpp-cpu/matmul_hdp_matmul_hdp.cpp.sycl
+remark: [Computecpp:CC0027]: Some memcpy/memset intrinsics added by the llvm optimizer were replaced by
+      serial functions. This is a workaround for OpenCL drivers that do not support those intrinsics.
+      This may impact performance, consider using -no-serial-memop. [-Rsycl-serial-memop]
+[ 50%] Built target matmul_hdp_matmul_hdp.cpp_0_ih
+Scanning dependencies of target matmul_hdp
+[ 50%] Building CXX object CMakeFiles/matmul_hdp.dir/single-kernel/matmul_hdp.cpp.o
+[100%] Linking CXX executable matmul_hdp
+[100%] Built target matmul_hdp
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.666739 [s]
+run-time-stddev: 0.003842 [s]
+run-time-median: 4.665485 [s]
+run-time-min: 4.661025 [s]
+run-time-samples: "4.661025 4.661260 4.662094 4.662100 4.662130 4.662525 4.663023 4.663096 4.663311 4.663354 4.663374 4.663453 4.663455 4.663501 4.663562 4.663603 4.663927 4.664181 4.664198 4.664277 4.664396 4.664407 4.664571 4.664582 4.664689 4.664726 4.664732 4.664750 4.664773 4.664791 4.664803 4.664830 4.664856 4.664916 4.664923 4.664933 4.664945 4.665055 4.665063 4.665090 4.665138 4.665214 4.665231 4.665244 4.665259 4.665409 4.665430 4.665450 4.665463 4.665479 4.665485 4.665495 4.665615 4.665630 4.665699 4.665706 4.665751 4.665825 4.665928 4.665978 4.666159 4.666200 4.666286 4.666378 4.666386 4.666468 4.666476 4.666486 4.666552 4.666788 4.666945 4.667120 4.667334 4.667367 4.667515 4.667740 4.668024 4.668342 4.668915 4.669083 4.669337 4.669446 4.669712 4.669748 4.670193 4.670273 4.670834 4.671314 4.671606 4.671836 4.671966 4.672379 4.674779 4.674823 4.675887 4.676071 4.677146 4.677229 4.679095 4.680000"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=1 --num-runs=100':
+
+      107716226858      cache-references
+          56215378      cache-misses              #    0.052 % of all cache refs
+
+     468.357994939 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=2 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.669621 [s]
+run-time-stddev: 0.003627 [s]
+run-time-median: 4.668873 [s]
+run-time-min: 4.664250 [s]
+run-time-samples: "4.664250 4.664957 4.665314 4.665657 4.665758 4.665920 4.665923 4.666054 4.666088 4.666215 4.666422 4.666720 4.666813 4.666890 4.667103 4.667143 4.667162 4.667170 4.667220 4.667237 4.667299 4.667530 4.667565 4.667583 4.667666 4.667671 4.667913 4.667982 4.668058 4.668109 4.668174 4.668194 4.668223 4.668248 4.668256 4.668279 4.668319 4.668327 4.668422 4.668488 4.668505 4.668505 4.668510 4.668652 4.668684 4.668731 4.668762 4.668814 4.668848 4.668865 4.668873 4.668988 4.669000 4.669055 4.669147 4.669189 4.669239 4.669265 4.669282 4.669334 4.669378 4.669383 4.669422 4.669526 4.669538 4.669557 4.669591 4.669670 4.669769 4.669790 4.669844 4.669855 4.669898 4.669902 4.669946 4.670034 4.670119 4.670174 4.670318 4.670391 4.670556 4.670733 4.671041 4.671118 4.671533 4.671927 4.671952 4.672667 4.672940 4.672988 4.674283 4.675306 4.675439 4.675503 4.676150 4.676286 4.677780 4.681219 4.685989 4.686056"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=2 --num-runs=100':
+
+      107694560784      cache-references
+          53419036      cache-misses              #    0.050 % of all cache refs
+
+     468.550295624 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=4 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.659812 [s]
+run-time-stddev: 0.002183 [s]
+run-time-median: 4.659472 [s]
+run-time-min: 4.656552 [s]
+run-time-samples: "4.656552 4.656855 4.656992 4.657014 4.657137 4.657207 4.657336 4.657665 4.657767 4.657813 4.657885 4.657976 4.657980 4.658265 4.658332 4.658431 4.658520 4.658535 4.658550 4.658617 4.658663 4.658737 4.658773 4.658800 4.658875 4.658928 4.658937 4.658950 4.658967 4.659018 4.659063 4.659068 4.659071 4.659098 4.659100 4.659132 4.659139 4.659155 4.659179 4.659180 4.659237 4.659299 4.659322 4.659324 4.659327 4.659363 4.659396 4.659437 4.659449 4.659453 4.659472 4.659484 4.659492 4.659511 4.659547 4.659557 4.659577 4.659578 4.659587 4.659605 4.659611 4.659625 4.659653 4.659666 4.659675 4.659730 4.659745 4.659765 4.659774 4.659825 4.659935 4.659943 4.659968 4.659977 4.659984 4.660027 4.660368 4.660425 4.660461 4.660501 4.660585 4.660624 4.660636 4.660882 4.660982 4.661319 4.661444 4.661546 4.661812 4.661865 4.662007 4.662711 4.662720 4.662848 4.663249 4.663253 4.663510 4.665760 4.667052 4.673419"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=4 --num-runs=100':
+
+      107683956041      cache-references
+          53453109      cache-misses              #    0.050 % of all cache refs
+
+     467.676666872 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=8 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.661738 [s]
+run-time-stddev: 0.005694 [s]
+run-time-median: 4.659583 [s]
+run-time-min: 4.655438 [s]
+run-time-samples: "4.655438 4.655653 4.655754 4.655770 4.655807 4.655841 4.655892 4.655942 4.656134 4.656522 4.656562 4.656725 4.656785 4.656787 4.657070 4.657105 4.657140 4.657142 4.657267 4.657274 4.657286 4.657331 4.657345 4.657361 4.657441 4.657516 4.657518 4.657549 4.657640 4.657657 4.657781 4.657828 4.657842 4.657991 4.658040 4.658041 4.658063 4.658093 4.658205 4.658271 4.658718 4.658720 4.658807 4.658943 4.658980 4.659056 4.659103 4.659416 4.659421 4.659479 4.659583 4.659636 4.659683 4.659958 4.661030 4.661289 4.661420 4.661648 4.661829 4.661838 4.662297 4.662349 4.662408 4.662489 4.662607 4.662671 4.662736 4.663132 4.663145 4.663475 4.663575 4.663790 4.664015 4.664092 4.664227 4.664391 4.664584 4.664967 4.665018 4.665267 4.665366 4.665655 4.665771 4.665782 4.666181 4.668788 4.669243 4.669243 4.669389 4.669596 4.670054 4.670565 4.671606 4.672967 4.673395 4.673806 4.675703 4.676168 4.678539 4.682771"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=8 --num-runs=100':
+
+      107687372372      cache-references
+          64702623      cache-misses              #    0.060 % of all cache refs
+
+     468.221559877 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=16 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.658528 [s]
+run-time-stddev: 0.004419 [s]
+run-time-median: 4.657151 [s]
+run-time-min: 4.654756 [s]
+run-time-samples: "4.654756 4.655094 4.655115 4.655137 4.655152 4.655329 4.655505 4.655566 4.655621 4.655706 4.655755 4.655784 4.655886 4.655943 4.655960 4.656087 4.656125 4.656132 4.656217 4.656257 4.656296 4.656341 4.656368 4.656429 4.656491 4.656528 4.656532 4.656597 4.656615 4.656651 4.656682 4.656764 4.656807 4.656807 4.656831 4.656834 4.656836 4.656842 4.656888 4.656921 4.656932 4.656945 4.656978 4.657010 4.657021 4.657037 4.657047 4.657082 4.657109 4.657131 4.657151 4.657170 4.657227 4.657237 4.657258 4.657279 4.657284 4.657348 4.657353 4.657368 4.657398 4.657411 4.657417 4.657431 4.657457 4.657521 4.657579 4.657594 4.657626 4.657640 4.657719 4.657742 4.657780 4.657787 4.657815 4.657967 4.657972 4.658074 4.658092 4.658169 4.659023 4.659464 4.659862 4.660737 4.660817 4.661154 4.661162 4.662509 4.663569 4.663946 4.664446 4.664865 4.666383 4.666668 4.667906 4.668154 4.668935 4.671349 4.675552 4.682960"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=16 --num-runs=100':
+
+      107678827063      cache-references
+          54613645      cache-misses              #    0.051 % of all cache refs
+
+     467.506929902 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=32 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.658315 [s]
+run-time-stddev: 0.004986 [s]
+run-time-median: 4.657077 [s]
+run-time-min: 4.654616 [s]
+run-time-samples: "4.654616 4.654782 4.654906 4.655139 4.655211 4.655250 4.655254 4.655284 4.655344 4.655472 4.655488 4.655652 4.655757 4.655891 4.655917 4.656028 4.656135 4.656152 4.656195 4.656199 4.656230 4.656334 4.656345 4.656363 4.656410 4.656473 4.656525 4.656546 4.656584 4.656613 4.656617 4.656631 4.656650 4.656653 4.656669 4.656746 4.656766 4.656814 4.656847 4.656867 4.656869 4.656877 4.656899 4.656949 4.656978 4.657015 4.657056 4.657064 4.657065 4.657070 4.657077 4.657083 4.657105 4.657134 4.657148 4.657169 4.657195 4.657206 4.657229 4.657349 4.657450 4.657479 4.657496 4.657515 4.657563 4.657565 4.657591 4.657769 4.657866 4.657923 4.658017 4.658028 4.658031 4.658097 4.658173 4.658319 4.658340 4.658412 4.658448 4.658581 4.658716 4.658957 4.658983 4.659048 4.659327 4.659707 4.660131 4.660862 4.661195 4.662761 4.663074 4.663199 4.663308 4.663566 4.663879 4.664389 4.664558 4.667794 4.679665 4.695879"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=32 --num-runs=100':
+
+      107676503990      cache-references
+          54668782      cache-misses              #    0.051 % of all cache refs
+
+     467.626090367 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=64 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 64
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.662780 [s]
+run-time-stddev: 0.025293 [s]
+run-time-median: 4.658056 [s]
+run-time-min: 4.654234 [s]
+run-time-samples: "4.654234 4.654647 4.654933 4.655539 4.655583 4.655690 4.655977 4.655981 4.656252 4.656357 4.656406 4.656422 4.656856 4.656879 4.656897 4.657046 4.657097 4.657116 4.657126 4.657185 4.657209 4.657225 4.657231 4.657239 4.657246 4.657250 4.657327 4.657348 4.657378 4.657380 4.657395 4.657427 4.657429 4.657493 4.657520 4.657593 4.657606 4.657722 4.657734 4.657767 4.657774 4.657805 4.657862 4.657863 4.657901 4.657944 4.657970 4.657981 4.658024 4.658041 4.658056 4.658062 4.658145 4.658166 4.658176 4.658184 4.658245 4.658309 4.658339 4.658464 4.658498 4.658558 4.658595 4.658617 4.658708 4.658943 4.658970 4.659163 4.659210 4.659232 4.659307 4.659350 4.659909 4.659959 4.660141 4.660162 4.660164 4.660223 4.660225 4.660609 4.660818 4.661650 4.662000 4.662197 4.662334 4.662661 4.662730 4.664358 4.664802 4.665992 4.666099 4.666935 4.667294 4.669476 4.669558 4.669863 4.671221 4.675228 4.808892 4.861312"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=64 --num-runs=100':
+
+      107675946586      cache-references
+          66039407      cache-misses              #    0.061 % of all cache refs
+
+     467.976945802 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=128 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 128
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.665076 [s]
+run-time-stddev: 0.028320 [s]
+run-time-median: 4.657817 [s]
+run-time-min: 4.655129 [s]
+run-time-samples: "4.655129 4.655191 4.655254 4.655438 4.655652 4.655867 4.655974 4.656011 4.656276 4.656461 4.656468 4.656482 4.656678 4.656681 4.656730 4.656760 4.656786 4.656790 4.656794 4.656929 4.656942 4.656966 4.656970 4.657044 4.657112 4.657164 4.657170 4.657177 4.657225 4.657250 4.657260 4.657298 4.657299 4.657304 4.657309 4.657338 4.657375 4.657382 4.657534 4.657552 4.657593 4.657600 4.657632 4.657698 4.657699 4.657718 4.657734 4.657737 4.657777 4.657794 4.657817 4.657842 4.657888 4.657962 4.657977 4.658013 4.658019 4.658042 4.658106 4.658164 4.658218 4.658238 4.658288 4.658306 4.658369 4.658699 4.658809 4.658824 4.658924 4.658949 4.658978 4.659079 4.659161 4.659293 4.659388 4.659596 4.659627 4.660089 4.660115 4.660771 4.660938 4.661997 4.662423 4.662520 4.662947 4.663227 4.664079 4.664579 4.665780 4.666493 4.668619 4.672660 4.676574 4.679194 4.685269 4.711988 4.749087 4.762648 4.806202 4.852858"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=128 --num-runs=100':
+
+      107693242266      cache-references
+          77736265      cache-misses              #    0.072 % of all cache refs
+
+     468.182619954 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=256 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 256
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.697477 [s]
+run-time-stddev: 0.091766 [s]
+run-time-median: 4.663416 [s]
+run-time-min: 4.660747 [s]
+run-time-samples: "4.660747 4.661120 4.661151 4.661532 4.661764 4.661789 4.661844 4.661864 4.661884 4.662047 4.662058 4.662069 4.662075 4.662078 4.662087 4.662133 4.662142 4.662164 4.662189 4.662204 4.662206 4.662266 4.662410 4.662474 4.662492 4.662503 4.662526 4.662579 4.662592 4.662674 4.662680 4.662707 4.662721 4.662773 4.662780 4.662836 4.662838 4.662867 4.662879 4.662906 4.662909 4.662931 4.662968 4.663032 4.663058 4.663192 4.663208 4.663209 4.663222 4.663334 4.663416 4.663588 4.663790 4.664038 4.664480 4.665077 4.665188 4.665921 4.667060 4.667880 4.668432 4.668632 4.669230 4.670034 4.670076 4.670870 4.671561 4.673439 4.673930 4.674309 4.674925 4.676350 4.682048 4.683309 4.685188 4.686127 4.692516 4.693100 4.695497 4.699286 4.700620 4.701948 4.703340 4.718581 4.722085 4.748694 4.749622 4.750941 4.768257 4.780169 4.789611 4.798302 4.816820 4.819445 4.827073 4.846702 4.869093 4.919206 4.967258 5.399971"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=256 --num-runs=100':
+
+      109730364417      cache-references
+         157742267      cache-misses              #    0.144 % of all cache refs
+
+     471.409814013 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=512 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 512
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.735131 [s]
+run-time-stddev: 0.158944 [s]
+run-time-median: 4.668148 [s]
+run-time-min: 4.662685 [s]
+run-time-samples: "4.662685 4.662899 4.663220 4.663266 4.663290 4.663327 4.663332 4.663361 4.663401 4.663439 4.663458 4.663468 4.663604 4.663613 4.663850 4.663935 4.663951 4.663985 4.664017 4.664062 4.664066 4.664098 4.664099 4.664128 4.664178 4.664333 4.664455 4.664498 4.664529 4.664551 4.664558 4.664661 4.664663 4.664709 4.664862 4.664995 4.665043 4.665079 4.665123 4.665226 4.665344 4.665584 4.665625 4.665768 4.665931 4.666039 4.666876 4.666997 4.667123 4.667194 4.668148 4.668150 4.668216 4.669792 4.670048 4.670545 4.671608 4.672409 4.672968 4.678543 4.679515 4.679913 4.686589 4.688196 4.689887 4.692205 4.692998 4.694735 4.700660 4.702504 4.704002 4.710284 4.715313 4.723224 4.726227 4.730660 4.732916 4.733750 4.738915 4.739078 4.777000 4.786382 4.798003 4.799892 4.822028 4.822663 4.829677 4.843018 4.866230 4.868525 4.904688 4.910489 4.912573 4.941279 5.033957 5.034010 5.098639 5.215286 5.489293 5.663007"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=512 --num-runs=100':
+
+      114273588072      cache-references
+         322448832      cache-misses              #    0.282 % of all cache refs
+
+     475.151031523 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1024 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.776062 [s]
+run-time-stddev: 0.201144 [s]
+run-time-median: 4.691058 [s]
+run-time-min: 4.663538 [s]
+run-time-samples: "4.663538 4.663551 4.663726 4.663843 4.663896 4.663912 4.663916 4.663926 4.663964 4.663990 4.664004 4.664198 4.664572 4.664596 4.664792 4.664866 4.665421 4.665959 4.665987 4.666001 4.666774 4.666820 4.666923 4.668208 4.668309 4.668342 4.668672 4.669881 4.670337 4.670384 4.670385 4.670413 4.671451 4.671453 4.671583 4.672868 4.674405 4.675661 4.676663 4.679114 4.679707 4.680391 4.682847 4.682981 4.683277 4.684227 4.684684 4.684716 4.684750 4.690845 4.691058 4.698437 4.700485 4.703358 4.706447 4.707765 4.708193 4.710493 4.712534 4.714955 4.716532 4.721813 4.723348 4.734777 4.739445 4.749912 4.759742 4.763374 4.775431 4.779248 4.780399 4.790019 4.793406 4.799066 4.799714 4.805024 4.808702 4.811771 4.815556 4.815678 4.816900 4.840540 4.857607 4.858035 4.858049 4.866127 4.872982 4.876487 4.897134 4.928534 4.955443 5.030222 5.071358 5.174944 5.204885 5.344348 5.346721 5.385222 5.400077 5.938202"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=1024 --num-runs=100':
+
+      114330074930      cache-references
+         486424251      cache-misses              #    0.425 % of all cache refs
+
+     479.222031149 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=1 --num-runs=100                                                
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: Host Device
+sycl-implementation: ComputeCpp
+^C./matmul_wgp: Segmentation fault
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=1 --num-runs=100':
+
+       69809664397      cache-references
+        4624161670      cache-misses              #    6.624 % of all cache refs
+
+    1447.656612072 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=4 --num-runs=100                                                
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 43.455204 [s]
+run-time-stddev: 0.622303 [s]
+run-time-median: 43.489195 [s]
+run-time-min: 41.856718 [s]
+run-time-samples: "41.856718 42.127652 42.260247 42.354870 42.455966 42.465825 42.471440 42.504617 42.552425 42.578811 42.587984 42.617321 42.659971 42.702993 42.735184 42.742054 42.818052 42.819827 42.852379 42.870378 42.890311 42.894664 42.906183 42.985770 43.046737 43.058352 43.108458 43.108812 43.114681 43.131947 43.137021 43.157284 43.158864 43.183327 43.211469 43.232652 43.244577 43.303456 43.321018 43.351809 43.355560 43.363093 43.380983 43.381836 43.437606 43.464269 43.479681 43.481977 43.486896 43.488114 43.489195 43.509102 43.512695 43.516335 43.517839 43.549030 43.576471 43.584414 43.617507 43.657235 43.677741 43.681020 43.699464 43.706345 43.715859 43.716813 43.722593 43.725629 43.743821 43.753699 43.754293 43.791817 43.795559 43.803011 43.824943 43.853490 43.874278 43.896113 43.931474 43.936591 44.039049 44.053158 44.056827 44.065992 44.163531 44.202244 44.238756 44.243344 44.249091 44.279414 44.306607 44.339544 44.417514 44.467099 44.470342 44.480719 44.506113 44.571787 44.637617 44.695168"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=4 --num-runs=100':
+
+      260363143881      cache-references
+       24845309787      cache-misses              #    9.543 % of all cache refs
+
+    4347.633370935 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=2 --num-runs=100                                                
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 34.594304 [s]
+run-time-stddev: 0.269027 [s]
+run-time-median: 34.612729 [s]
+run-time-min: 33.947321 [s]
+run-time-samples: "33.947321 33.977076 33.983786 34.062028 34.143350 34.147371 34.162144 34.163868 34.182918 34.202515 34.220680 34.226980 34.285189 34.320340 34.322182 34.325269 34.335335 34.343247 34.357585 34.360863 34.394644 34.394773 34.395196 34.398699 34.418255 34.426627 34.454429 34.459832 34.461378 34.463015 34.471626 34.477329 34.491099 34.496355 34.500478 34.505182 34.513331 34.515508 34.527263 34.543612 34.551678 34.553173 34.560896 34.563793 34.568893 34.574562 34.589561 34.590095 34.605448 34.611915 34.612729 34.615196 34.623780 34.626992 34.628845 34.631025 34.641695 34.646031 34.656354 34.660796 34.669248 34.671264 34.679662 34.680192 34.682429 34.682743 34.705983 34.726134 34.728062 34.733560 34.741039 34.750395 34.761332 34.769364 34.775072 34.777230 34.779621 34.781577 34.808827 34.810283 34.815552 34.823757 34.831756 34.849629 34.851517 34.863317 34.870049 34.928667 34.934596 34.950539 34.955423 34.981427 34.995609 35.001280 35.006771 35.021090 35.050571 35.136758 35.143820 35.212147"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=2 --num-runs=100':
+
+      222197195940      cache-references
+       15223939290      cache-misses              #    6.852 % of all cache refs
+
+    3461.438863946 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=1 --num-runs=100                                                
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 49.264351 [s]
+run-time-stddev: 1.080736 [s]
+run-time-median: 49.050575 [s]
+run-time-min: 47.883560 [s]
+run-time-samples: "47.883560 48.086782 48.092456 48.140541 48.194470 48.239543 48.248715 48.285040 48.305204 48.309212 48.316492 48.319675 48.380878 48.400187 48.427948 48.449013 48.488102 48.541148 48.567298 48.579934 48.595401 48.609291 48.621349 48.642366 48.664080 48.735233 48.745868 48.755285 48.755464 48.758152 48.776480 48.784718 48.802484 48.827670 48.833983 48.836501 48.837583 48.838053 48.879690 48.886906 48.891767 48.894872 48.916919 48.931859 48.951850 48.960009 48.997887 49.003299 49.019093 49.026505 49.050575 49.071330 49.083463 49.096598 49.135200 49.193489 49.201343 49.206208 49.219680 49.230315 49.232713 49.251513 49.257401 49.264721 49.280858 49.286885 49.313970 49.314138 49.339530 49.393835 49.401027 49.436904 49.446013 49.463924 49.465990 49.502817 49.552191 49.555762 49.615615 49.663113 49.720735 49.724179 49.736481 49.767538 49.828654 49.835637 49.855565 49.894032 49.898074 49.939882 50.107509 50.175869 50.208090 50.304090 50.693940 52.025680 53.255492 53.351133 53.455792 54.092747"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=1 --num-runs=100':
+
+      236067484413      cache-references
+       17503688280      cache-misses              #    7.415 % of all cache refs
+
+    4928.265616061 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=8 --num-runs=100                                                
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 42.463787 [s]
+run-time-stddev: 0.440630 [s]
+run-time-median: 42.608625 [s]
+run-time-min: 40.960157 [s]
+run-time-samples: "40.960157 41.086228 41.130403 41.477631 41.571086 41.593397 41.610778 41.655566 41.683519 41.718926 41.724806 41.771612 41.926205 41.994350 42.003409 42.027891 42.035146 42.087936 42.094904 42.158749 42.217996 42.219265 42.231413 42.306041 42.307197 42.339597 42.343680 42.372359 42.406387 42.407208 42.435610 42.436384 42.436664 42.441761 42.446866 42.455113 42.459325 42.462009 42.472659 42.493567 42.534566 42.534831 42.548697 42.556301 42.563819 42.590299 42.591075 42.597914 42.603633 42.607734 42.608625 42.621029 42.644594 42.650203 42.651072 42.652530 42.657385 42.658231 42.664079 42.679176 42.683965 42.687557 42.689455 42.692380 42.709125 42.713986 42.714237 42.716730 42.718751 42.730802 42.735382 42.735870 42.743054 42.745589 42.752940 42.754230 42.758805 42.759386 42.766190 42.782680 42.784968 42.788607 42.794056 42.798520 42.802069 42.809475 42.834170 42.837066 42.845907 42.871398 42.888758 42.893703 42.905021 42.913958 42.916048 42.926057 42.934234 42.952501 43.002320 43.069153"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=8 --num-runs=100':
+
+      266283357048      cache-references
+       27138629874      cache-misses              #   10.192 % of all cache refs
+
+    4248.312267140 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-computecpp-cpu# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=16 --num-runs=100                                               
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: Host Device
+sycl-implementation: ComputeCpp
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 39.002947 [s]
+run-time-stddev: 0.086480 [s]
+run-time-median: 38.999663 [s]
+run-time-min: 38.832087 [s]
+run-time-samples: "38.832087 38.839600 38.845948 38.852135 38.854168 38.866984 38.867794 38.871402 38.873997 38.878054 38.893684 38.897584 38.897988 38.906184 38.909912 38.912659 38.913480 38.915012 38.921441 38.922193 38.928281 38.932199 38.932449 38.936572 38.939166 38.939944 38.942236 38.946597 38.946910 38.947119 38.952126 38.954103 38.955453 38.964444 38.968051 38.970934 38.972277 38.975550 38.976040 38.976142 38.979571 38.979937 38.980419 38.982153 38.983197 38.987402 38.989970 38.992159 38.992496 38.995120 38.999663 39.001992 39.002436 39.003579 39.005505 39.006103 39.008587 39.012232 39.012862 39.020279 39.021040 39.021997 39.039515 39.040047 39.041259 39.044966 39.049548 39.050369 39.053666 39.056829 39.057321 39.057923 39.069903 39.076562 39.077847 39.078212 39.082265 39.083532 39.084176 39.084195 39.085050 39.087762 39.088164 39.090277 39.093896 39.096948 39.097146 39.100753 39.107997 39.114523 39.115245 39.124772 39.129792 39.137165 39.137841 39.145513 39.155222 39.156002 39.176788 39.218135"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=16 --num-runs=100':
+
+      263593412334      cache-references
+       28044427959      cache-misses              #   10.639 % of all cache refs
+
+    3902.089883110 seconds time elapsed
+
+

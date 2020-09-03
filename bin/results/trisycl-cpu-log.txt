@@ -1,0 +1,650 @@
+root@whale:/workspace/codes/sycl-bench# cd new-build-trisycl-cpu/
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib CC=/opt/hipSYCL/llvm/bin/clang CXX=/opt/hipSYCL/llvm/bin/clang++ cmake .. -DSYCL_IMPL=triSYCL -DTRISYCL_TBB=OFF -DTRISYCL_OMP=ON -DTRISYCL_INCLUDE_DIR=/tmp/triSYCL-master/include
+-- The C compiler identification is Clang 9.0.1
+-- The CXX compiler identification is Clang 9.0.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /opt/hipSYCL/llvm/bin/clang - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /opt/hipSYCL/llvm/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- host compiler - clang 9.0.1
+-- Found triSYCL include directory: /tmp/triSYCL-master/include
+
+-- Found OpenMP_C: -fopenmp=libomp (found version "3.1")
+-- Found OpenMP_CXX: -fopenmp=libomp (found version "3.1")
+-- Found OpenMP: TRUE (found version "3.1")
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- Found Boost: /usr/include (found suitable version "1.65.1", minimum required is "1.58") found components: chrono log system date_time log_setup filesystem thread regex atomic
+-- triSYCL OpenMP:                   ON
+-- triSYCL TBB:                      OFF
+-- triSYCL OpenCL:                   OFF
+-- triSYCL synchronous execution:    OFF
+-- triSYCL debug mode:               OFF
+-- triSYCL object trace:             OFF
+-- triSYCL kernel trace:             OFF
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    TRISYCL_OMP
+
+
+-- Build files have been written to: /workspace/codes/sycl-bench/new-build-trisycl-cpu
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu#
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# make matmul_serial matmul_wgp matmul_bkp matmul_hdp
+Scanning dependencies of target matmul_serial
+[ 50%] Building CXX object CMakeFiles/matmul_serial.dir/single-kernel/matmul_serial.cpp.o
+[100%] Linking CXX executable matmul_serial
+[100%] Built target matmul_serial
+Scanning dependencies of target matmul_wgp
+[ 50%] Building CXX object CMakeFiles/matmul_wgp.dir/single-kernel/matmul_wgp.cpp.o
+[100%] Linking CXX executable matmul_wgp
+[100%] Built target matmul_wgp
+Scanning dependencies of target matmul_bkp
+[ 50%] Building CXX object CMakeFiles/matmul_bkp.dir/single-kernel/matmul_bkp.cpp.o
+[100%] Linking CXX executable matmul_bkp
+[100%] Built target matmul_bkp
+Scanning dependencies of target matmul_hdp
+[ 50%] Building CXX object CMakeFiles/matmul_hdp.dir/single-kernel/matmul_hdp.cpp.o
+[100%] Linking CXX executable matmul_hdp
+[100%] Built target matmul_hdp
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# make vecadd_serial vecadd_wgp vecadd_bkp vecadd_hdp
+Scanning dependencies of target vecadd_serial
+[ 50%] Building CXX object CMakeFiles/vecadd_serial.dir/single-kernel/vecadd_serial.cpp.o
+[100%] Linking CXX executable vecadd_serial
+[100%] Built target vecadd_serial
+Scanning dependencies of target vecadd_wgp
+[ 50%] Building CXX object CMakeFiles/vecadd_wgp.dir/single-kernel/vecadd_wgp.cpp.o
+[100%] Linking CXX executable vecadd_wgp
+[100%] Built target vecadd_wgp
+Scanning dependencies of target vecadd_bkp
+[ 50%] Building CXX object CMakeFiles/vecadd_bkp.dir/single-kernel/vecadd_bkp.cpp.o
+[100%] Linking CXX executable vecadd_bkp
+[100%] Built target vecadd_bkp
+Scanning dependencies of target vecadd_hdp
+[ 50%] Building CXX object CMakeFiles/vecadd_hdp.dir/single-kernel/vecadd_hdp.cpp.o
+[100%] Linking CXX executable vecadd_hdp
+[100%] Built target vecadd_hdp
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=32 --num-run
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: unknown
+sycl-implementation: triSYCL
+^C./matmul_wgp: Interrupt
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=32 --num-run':
+
+          53551291      cache-references
+           1625661      cache-misses              #    3.036 % of all cache refs
+
+       0.737643000 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --local=32 --nu
+m-run
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: unknown
+sycl-implementation: triSYCL
+^C./matmul_serial: Interrupt
+
+ Performance counter stats for './matmul_serial --size=1024 --local=32 --num-run':
+
+         535907348      cache-references
+            202493      cache-misses              #    0.038 % of all cache refs
+
+       2.320587840 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --local=32 --num-runs=100
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: unknown
+sycl-implementation: triSYCL
+^C./matmul_serial: Interrupt
+
+ Performance counter stats for './matmul_serial --size=1024 --local=32 --num-runs=100':
+
+        1941729589      cache-references
+            467148      cache-misses              #    0.024 % of all cache refs
+
+       8.399717322 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --num-runs=100
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: unknown
+sycl-implementation: triSYCL
+
+
+^C./matmul_serial: Interrupt
+
+ Performance counter stats for './matmul_serial --size=1024 --num-runs=100':
+
+       76610516306      cache-references
+           3402997      cache-misses              #    0.004 % of all cache refs
+
+     330.936498182 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --num-runs=100
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.645794 [s]
+run-time-stddev: 0.000245 [s]
+run-time-median: 4.645804 [s]
+run-time-min: 4.645077 [s]
+run-time-samples: "4.645077 4.645206 4.645335 4.645359 4.645361 4.645391 4.645430 4.645467 4.645483 4.645484 4.645485 4.645515 4.645515 4.645534 4.645534 4.645548 4.645571 4.645574 4.645581 4.645584 4.645597 4.645601 4.645614 4.645614 4.645625 4.645637 4.645658 4.645660 4.645661 4.645667 4.645679 4.645689 4.645691 4.645694 4.645695 4.645695 4.645705 4.645714 4.645726 4.645734 4.645735 4.645749 4.645752 4.645754 4.645761 4.645764 4.645768 4.645781 4.645788 4.645801 4.645804 4.645808 4.645809 4.645815 4.645823 4.645827 4.645834 4.645835 4.645836 4.645839 4.645855 4.645870 4.645871 4.645873 4.645877 4.645882 4.645883 4.645883 4.645884 4.645885 4.645891 4.645934 4.645934 4.645935 4.645946 4.645949 4.645953 4.645960 4.645973 4.646017 4.646024 4.646032 4.646063 4.646074 4.646080 4.646083 4.646104 4.646104 4.646105 4.646106 4.646106 4.646138 4.646146 4.646169 4.646183 4.646186 4.646209 4.646268 4.646303 4.646360"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_serial --size=1024 --num-runs=100':
+
+      107641603587      cache-references
+           9524451      cache-misses              #    0.009 % of all cache refs
+
+     464.826417674 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_bkp --size=1024 --num-runs=100
+********** Results for MatMul_BKP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.247278 [s]
+run-time-stddev: 0.006998 [s]
+run-time-median: 0.245434 [s]
+run-time-min: 0.241700 [s]
+run-time-samples: "0.241700 0.242152 0.242209 0.242309 0.242424 0.242599 0.242691 0.242706 0.242807 0.242983 0.243141 0.243319 0.243394 0.243629 0.243688 0.243772 0.243816 0.243882 0.244007 0.244053 0.244194 0.244204 0.244243 0.244336 0.244359 0.244364 0.244395 0.244427 0.244428 0.244483 0.244508 0.244636 0.244648 0.244667 0.244668 0.244699 0.244724 0.244816 0.244876 0.244915 0.244945 0.245138 0.245168 0.245180 0.245205 0.245235 0.245248 0.245281 0.245347 0.245430 0.245434 0.245441 0.245520 0.245535 0.245551 0.245578 0.245637 0.245688 0.245810 0.245985 0.246021 0.246310 0.246329 0.246408 0.246456 0.246459 0.246549 0.246618 0.246634 0.246648 0.246679 0.246750 0.246929 0.247010 0.247050 0.248282 0.248419 0.248440 0.248668 0.248991 0.250077 0.250582 0.250698 0.250850 0.251330 0.251799 0.251801 0.252160 0.252188 0.253284 0.254150 0.254777 0.254785 0.254971 0.255062 0.256205 0.258165 0.258884 0.259473 0.304713"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_bkp --size=1024 --num-runs=100':
+
+       68279227916      cache-references
+          43392085      cache-misses              #    0.064 % of all cache refs
+
+      25.554703405 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1 --num-ru
+ns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.899874 [s]
+run-time-stddev: 0.006283 [s]
+run-time-median: 4.898455 [s]
+run-time-min: 4.891556 [s]
+run-time-samples: "4.891556 4.891599 4.891787 4.891910 4.891989 4.892032 4.892064 4.892229 4.892478 4.892597 4.892610 4.892722 4.892908 4.892922 4.893079 4.893343 4.893410 4.893530 4.893622 4.893733 4.893759 4.893772 4.894071 4.894128 4.894142 4.894268 4.894527 4.894583 4.894587 4.894679 4.894774 4.895063 4.895297 4.895440 4.895557 4.895673 4.895837 4.896124 4.896220 4.896268 4.896306 4.896370 4.896392 4.896626 4.896847 4.896951 4.897801 4.897856 4.898166 4.898205 4.898455 4.898485 4.899132 4.899180 4.899310 4.899425 4.899526 4.899574 4.900315 4.901136 4.901255 4.901394 4.901408 4.901424 4.901449 4.902340 4.902566 4.903532 4.903856 4.903992 4.905047 4.905371 4.905947 4.906018 4.906647 4.906954 4.906961 4.907026 4.907225 4.907248 4.907346 4.907410 4.907700 4.908303 4.908335 4.908348 4.908467 4.908593 4.908641 4.908691 4.908834 4.909018 4.909148 4.909358 4.910178 4.910429 4.910581 4.910913 4.910959 4.911587"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=1 --num-runs=100':
+
+      107861959964      cache-references
+          30540960      cache-misses              #    0.028 % of all cache refs
+
+     490.535168794 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=2 --num-ru
+ns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 512,512: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.444676 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.444676 [s]
+run-time-min: 0.444676 [s]
+run-time-samples: "0.444676"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=2 --num-runs=100':
+
+         273928217      cache-references
+           2030695      cache-misses              #    0.741 % of all cache refs
+
+       0.455784539 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=2 --num-runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 512,512: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.475903 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.475903 [s]
+run-time-min: 0.475903 [s]
+run-time-samples: "0.475903"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=2 --num-runs=100':
+
+         274817159      cache-references
+           3599918      cache-misses              #    1.310 % of all cache refs
+
+       0.486740708 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=4 --num-ru
+ns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 256,256: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.069707 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.069707 [s]
+run-time-min: 0.069707 [s]
+run-time-samples: "0.069707"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=4 --num-runs=100':
+
+          35905353      cache-references
+            125498      cache-misses              #    0.350 % of all cache refs
+
+       0.079411835 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=8 --num-ru
+ns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 128,128: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.068765 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.068765 [s]
+run-time-min: 0.068765 [s]
+run-time-samples: "0.068765"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=8 --num-runs=100':
+
+          18092416      cache-references
+            184958      cache-misses              #    1.022 % of all cache refs
+
+       0.078892064 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=16 --num-r
+uns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 64,64: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.215158 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.215158 [s]
+run-time-min: 0.215158 [s]
+run-time-samples: "0.215158"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=16 --num-runs=100':
+
+          24214793      cache-references
+           1755372      cache-misses              #    7.249 % of all cache refs
+
+       0.228713723 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=32 --num-r
+uns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 32,32: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.266528 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.266528 [s]
+run-time-min: 0.266528 [s]
+run-time-samples: "0.266528"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=32 --num-runs=100':
+
+          19516533      cache-references
+           2546474      cache-misses              #   13.048 % of all cache refs
+
+       0.305640481 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=64 --num-r
+uns=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 64
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 64,64: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.576011 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 0.576011 [s]
+run-time-min: 0.576011 [s]
+run-time-samples: "0.576011"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=64 --num-runs=100':
+
+         197098958      cache-references
+           9137428      cache-misses              #    4.636 % of all cache refs
+
+       0.723771848 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=128 --num-
+runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 128
+device-name: unknown
+sycl-implementation: triSYCL
+VERIFICATION FAILED for element 128,128: 0.000000 != 1.000000
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 1.285789 [s]
+run-time-stddev: 0.000000 [s]
+run-time-median: 1.285789 [s]
+run-time-min: 1.285789 [s]
+run-time-samples: "1.285789"
+run-time-throughput: N/A
+Verification: FAIL
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=128 --num-runs=100':
+
+         217566191      cache-references
+          78698277      cache-misses              #   36.172 % of all cache refs
+
+       1.948959893 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=256 --num-
+runs=100
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 256
+device-name: unknown
+sycl-implementation: triSYCL
+OMP: Error #34: System unable to allocate necessary resources for OMP thread:
+OMP: System error #11: Resource temporarily unavailable
+OMP: Hint Try decreasing the value of OMP_NUM_THREADS.
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=256 --num-runs=100':
+
+          49383656      cache-references
+          19717740      cache-misses              #   39.928 % of all cache refs
+
+       1.942418608 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=1 --num-ru
+ns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.872299 [s]
+run-time-stddev: 0.005385 [s]
+run-time-median: 4.871694 [s]
+run-time-min: 4.862757 [s]
+run-time-samples: "4.862757 4.863573 4.864110 4.864317 4.865396 4.865662 4.865781 4.866310 4.866404 4.866512 4.866685 4.866699 4.867001 4.867074 4.867563 4.867636 4.867742 4.867958 4.868189 4.868209 4.868227 4.868307 4.868340 4.868444 4.868613 4.868937 4.868957 4.868960 4.869105 4.869209 4.869231 4.869265 4.869470 4.869556 4.869699 4.869735 4.869737 4.869958 4.870076 4.870458 4.870507 4.870578 4.870609 4.870758 4.870981 4.871163 4.871291 4.871512 4.871530 4.871554 4.871694 4.871714 4.871757 4.871857 4.871866 4.871942 4.872046 4.872237 4.872419 4.872462 4.872541 4.872991 4.873196 4.873209 4.873655 4.873903 4.874160 4.874224 4.874401 4.874419 4.874450 4.874627 4.874795 4.874796 4.874866 4.874894 4.875215 4.875319 4.875380 4.875407 4.875569 4.875756 4.875892 4.875976 4.876779 4.877022 4.877254 4.877344 4.877785 4.877795 4.877982 4.880555 4.880875 4.881013 4.881530 4.881690 4.882855 4.882999 4.887704 4.898739"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=1 --num-runs=100':
+
+      107849164202      cache-references
+          27118029      cache-misses              #    0.025 % of all cache refs
+
+     488.024826509 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=2 --num-ru
+ns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 1.714804 [s]
+run-time-stddev: 0.059892 [s]
+run-time-median: 1.722595 [s]
+run-time-min: 1.591943 [s]
+run-time-samples: "1.591943 1.594975 1.595444 1.598608 1.599392 1.614875 1.617468 1.618611 1.619626 1.620338 1.620552 1.620641 1.620657 1.621291 1.621672 1.626014 1.626537 1.630773 1.647276 1.653268 1.656139 1.666698 1.666764 1.666813 1.669859 1.670096 1.678031 1.680730 1.683887 1.684601 1.687154 1.687368 1.698771 1.701516 1.703139 1.704481 1.704972 1.705148 1.708000 1.709035 1.711156 1.711762 1.712420 1.712751 1.714723 1.714857 1.715905 1.719337 1.720551 1.721018 1.722595 1.722958 1.723709 1.729330 1.731459 1.737046 1.738923 1.742826 1.744754 1.748260 1.748272 1.749889 1.752993 1.753224 1.753348 1.754280 1.762048 1.763903 1.764739 1.766258 1.767662 1.767941 1.768567 1.769899 1.770244 1.770733 1.771545 1.771886 1.774543 1.774913 1.774923 1.775016 1.775277 1.775845 1.776516 1.776896 1.777846 1.780041 1.780450 1.780511 1.780716 1.780754 1.780837 1.780843 1.781635 1.782857 1.783866 1.785932 1.787018 1.796264"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=2 --num-runs=100':
+
+      109035598597      cache-references
+         847371199      cache-misses              #    0.777 % of all cache refs
+
+     171.943426513 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=4 --num-ru
+ns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.524038 [s]
+run-time-stddev: 0.042723 [s]
+run-time-median: 0.527288 [s]
+run-time-min: 0.440212 [s]
+run-time-samples: "0.440212 0.441172 0.463091 0.463419 0.467956 0.468248 0.469188 0.470655 0.471272 0.472007 0.474958 0.475888 0.478754 0.479167 0.479204 0.479568 0.479934 0.479991 0.480148 0.481113 0.482357 0.482917 0.484921 0.485033 0.486332 0.487813 0.487963 0.488570 0.488977 0.490284 0.492515 0.498424 0.498425 0.499951 0.501570 0.503721 0.504937 0.505392 0.507503 0.509825 0.510834 0.511737 0.514462 0.515108 0.517625 0.519327 0.523270 0.525023 0.526013 0.526361 0.527288 0.528311 0.528834 0.529249 0.529346 0.530649 0.530748 0.530889 0.531270 0.533811 0.535269 0.535861 0.536086 0.536983 0.538670 0.538733 0.540132 0.540874 0.541523 0.542628 0.543165 0.545978 0.546220 0.546561 0.547163 0.550892 0.552729 0.553470 0.556703 0.557092 0.559844 0.560930 0.562286 0.562356 0.563397 0.566017 0.566444 0.570883 0.572857 0.576653 0.577050 0.577184 0.586144 0.593314 0.600962 0.602287 0.605934 0.621567 0.633613 0.663827"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=4 --num-runs=100':
+
+      107468776019      cache-references
+         502089660      cache-misses              #    0.467 % of all cache refs
+
+      52.917422299 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=8 --num-ru
+ns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.710199 [s]
+run-time-stddev: 0.050808 [s]
+run-time-median: 0.705415 [s]
+run-time-min: 0.614086 [s]
+run-time-samples: "0.614086 0.618587 0.625404 0.625667 0.635377 0.637972 0.642369 0.644296 0.648038 0.654644 0.658140 0.658356 0.660745 0.661358 0.662440 0.662442 0.667959 0.667982 0.668262 0.668674 0.671019 0.674974 0.676438 0.679379 0.680547 0.682593 0.683188 0.683205 0.686067 0.686390 0.686563 0.687043 0.688016 0.688328 0.688364 0.690572 0.690576 0.692172 0.693932 0.694964 0.695225 0.695380 0.696445 0.697752 0.699471 0.699993 0.701270 0.701570 0.703254 0.705004 0.705415 0.709817 0.710348 0.711587 0.712191 0.712362 0.714567 0.715612 0.716968 0.719757 0.721609 0.722179 0.723039 0.723137 0.724590 0.725653 0.725767 0.726916 0.727523 0.728547 0.728602 0.729058 0.730674 0.734802 0.735575 0.737805 0.739055 0.740039 0.742170 0.742861 0.744989 0.746406 0.747313 0.748195 0.749247 0.749450 0.751028 0.753044 0.759310 0.759673 0.761758 0.765905 0.769938 0.770511 0.773433 0.776330 0.794062 0.855629 0.867516 0.955466"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=8 --num-runs=100':
+
+       88493130261      cache-references
+         302672196      cache-misses              #    0.342 % of all cache refs
+
+      73.104069503 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=16 --num-r
+uns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: unknown
+sycl-implementation: triSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.667600 [s]
+run-time-stddev: 0.123539 [s]
+run-time-median: 0.631852 [s]
+run-time-min: 0.596159 [s]
+run-time-samples: "0.596159 0.596412 0.598939 0.599799 0.600199 0.602079 0.603924 0.604776 0.605774 0.606410 0.606551 0.606634 0.606733 0.606888 0.607557 0.609059 0.609283 0.609338 0.609575 0.609963 0.610114 0.610242 0.611145 0.612235 0.612774 0.613823 0.613928 0.613934 0.614035 0.614959 0.615156 0.615542 0.617921 0.618261 0.618514 0.619568 0.619749 0.620310 0.620373 0.621452 0.621639 0.622846 0.623353 0.623392 0.624526 0.625946 0.629652 0.630160 0.631210 0.631696 0.631852 0.636625 0.637925 0.638711 0.639247 0.639767 0.639941 0.639947 0.640079 0.640966 0.642846 0.642933 0.645068 0.645739 0.646661 0.647416 0.648733 0.649286 0.649292 0.649678 0.651228 0.651244 0.652035 0.654026 0.655192 0.655575 0.656745 0.657016 0.657543 0.667319 0.675560 0.675629 0.677961 0.688922 0.691285 0.706875 0.731657 0.735672 0.736661 0.742921 0.775981 0.834137 0.843199 0.866274 0.866572 0.885173 0.914108 0.969675 1.102261 1.554369"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=16 --num-runs=100':
+
+      103177004991      cache-references
+         535189454      cache-misses              #    0.519 % of all cache refs
+
+      72.916511739 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=32 --num-r
+uns=100
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: unknown
+sycl-implementation: triSYCL
+^C./matmul_wgp: Interrupt
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=32 --num-runs=100':
+
+        3689539055      cache-references
+         490635944      cache-misses              #   13.298 % of all cache refs
+
+      75.647897330 seconds time elapsed
+
+root@whale:/workspace/codes/sycl-bench/new-build-trisycl-cpu# LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/hipSYCL/llvm/lib perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=32 --num-r
+uns=100
