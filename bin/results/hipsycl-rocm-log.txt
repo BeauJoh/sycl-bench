@@ -1,0 +1,867 @@
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_serial --size=1024 --num-runs=100 --device=gpu
+********** Results for MatMul_Serial_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 4.517504 [s]
+run-time-stddev: 0.011159 [s]
+run-time-median: 4.514491 [s]
+run-time-min: 4.511451 [s]
+run-time-samples: "4.511451 4.511732 4.512125 4.512620 4.512665 4.512711 4.512842 4.512935 4.513016 4.513065 4.513082 4.513249 4.513296 4.513400 4.513440 4.513448 4.513449 4.513464 4.513477 4.513487 4.513530 4.513589 4.513594 4.513659 4.513663 4.513666 4.513727 4.513834 4.513864 4.513893 4.513927 4.513978 4.513979 4.513985 4.514023 4.514068 4.514074 4.514087 4.514102 4.514147 4.514155 4.514189 4.514192 4.514226 4.514251 4.514254 4.514278 4.514305 4.514327 4.514452 4.514491 4.514492 4.514533 4.514535 4.514598 4.514603 4.514646 4.514650 4.514666 4.514677 4.514712 4.514721 4.514730 4.514750 4.514840 4.514885 4.514896 4.514962 4.514970 4.515010 4.515026 4.515037 4.515047 4.515053 4.515109 4.515180 4.515190 4.515290 4.515341 4.515572 4.515669 4.515721 4.515738 4.515812 4.515837 4.515882 4.515995 4.516303 4.516564 4.516565 4.517583 4.518382 4.529416 4.545270 4.556821 4.557024 4.559068 4.559845 4.560667 4.561082"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_serial --size=1024 --num-runs=100 --device=gpu':
+
+      107640235803      cache-references
+         265060473      cache-misses              #    0.246 % of all cache refs
+
+     452.223887985 seconds time elapsed
+
+     451.999606000 seconds user
+       0.179999000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# cpuinfo
+bash: cpuinfo: command not found
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# cat /proc/cpuinfo
+processor       : 0
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.102
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 0
+cpu cores       : 4
+apicid          : 0
+initial apicid  : 0
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 1
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.373
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 1
+cpu cores       : 4
+apicid          : 2
+initial apicid  : 2
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 2
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.115
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 3
+cpu cores       : 4
+apicid          : 6
+initial apicid  : 6
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 3
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.030
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 4
+cpu cores       : 4
+apicid          : 8
+initial apicid  : 8
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 4
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.285
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 0
+cpu cores       : 4
+apicid          : 1
+initial apicid  : 1
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 5
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1200.017
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 1
+cpu cores       : 4
+apicid          : 3
+initial apicid  : 3
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 6
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1199.893
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 3
+cpu cores       : 4
+apicid          : 7
+initial apicid  : 7
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+processor       : 7
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 85
+model name      : Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+stepping        : 4
+microcode       : 0x2006906
+cpu MHz         : 1199.995
+cache size      : 8448 KB
+physical id     : 0
+siblings        : 8
+core id         : 4
+cpu cores       : 4
+apicid          : 9
+initial apicid  : 9
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd mba ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm mpx rdt_a avx512f avx512dq rdseed adx smap clflushopt clwb intel_pt avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req md_clear flush_l1d
+bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit
+bogomips        : 7200.00
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 46 bits physical, 48 bits virtual
+power management:
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_bkp --size=1024 --num-runs=100 --device=gpu
+********** Results for MatMul_BKP_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.005889 [s]
+run-time-stddev: 0.000116 [s]
+run-time-median: 0.005895 [s]
+run-time-min: 0.005673 [s]
+run-time-samples: "0.005673 0.005678 0.005683 0.005695 0.005698 0.005700 0.005717 0.005718 0.005722 0.005724 0.005732 0.005737 0.005741 0.005747 0.005750 0.005754 0.005761 0.005765 0.005767 0.005768 0.005770 0.005781 0.005785 0.005796 0.005797 0.005810 0.005814 0.005815 0.005823 0.005830 0.005832 0.005836 0.005838 0.005843 0.005844 0.005846 0.005847 0.005853 0.005856 0.005861 0.005865 0.005869 0.005872 0.005880 0.005883 0.005885 0.005886 0.005889 0.005890 0.005894 0.005895 0.005896 0.005896 0.005897 0.005899 0.005907 0.005912 0.005916 0.005916 0.005918 0.005919 0.005925 0.005926 0.005930 0.005932 0.005936 0.005939 0.005940 0.005942 0.005947 0.005952 0.005957 0.005957 0.005958 0.005965 0.005969 0.005970 0.005971 0.005977 0.005978 0.005982 0.005983 0.005991 0.005995 0.005999 0.006010 0.006013 0.006027 0.006030 0.006032 0.006040 0.006052 0.006054 0.006059 0.006067 0.006073 0.006097 0.006114 0.006171 0.006231"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_bkp --size=1024 --num-runs=100 --device=gpu':
+
+          70929506      cache-references
+          46039812      cache-misses              #   64.909 % of all cache refs
+
+       1.684630084 seconds time elapsed
+
+       1.481268000 seconds user
+       0.437366000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.164591 [s]
+run-time-stddev: 0.001155 [s]
+run-time-median: 0.164433 [s]
+run-time-min: 0.162870 [s]
+run-time-samples: "0.162870 0.162881 0.162927 0.162988 0.163060 0.163071 0.163283 0.163287 0.163302 0.163362 0.163380 0.163395 0.163406 0.163468 0.163489 0.163503 0.163506 0.163519 0.163530 0.163557 0.163601 0.163643 0.163688 0.163707 0.163751 0.163781 0.163802 0.163824 0.163829 0.163844 0.163874 0.163913 0.163939 0.163947 0.163954 0.163969 0.163980 0.164043 0.164082 0.164088 0.164121 0.164132 0.164135 0.164141 0.164162 0.164205 0.164216 0.164237 0.164372 0.164424 0.164433 0.164539 0.164546 0.164549 0.164600 0.164605 0.164622 0.164634 0.164644 0.164673 0.164677 0.164698 0.164747 0.164747 0.164752 0.164792 0.164795 0.164796 0.164853 0.164865 0.164874 0.164905 0.164935 0.164966 0.164972 0.165001 0.165397 0.165584 0.165639 0.165643 0.165647 0.165680 0.165687 0.165702 0.165723 0.165881 0.165962 0.165977 0.165980 0.166045 0.166204 0.166218 0.166273 0.166479 0.166720 0.166903 0.167503 0.167607 0.168100 0.168152"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=1 --num-runs=100 --device=gpu':
+
+          71439115      cache-references
+          46560449      cache-misses              #   65.175 % of all cache refs
+
+      17.556631482 seconds time elapsed
+
+      17.346374000 seconds user
+       0.445396000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=2 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.042555 [s]
+run-time-stddev: 0.000291 [s]
+run-time-median: 0.042547 [s]
+run-time-min: 0.042057 [s]
+run-time-samples: "0.042057 0.042100 0.042118 0.042146 0.042197 0.042216 0.042226 0.042243 0.042277 0.042286 0.042294 0.042299 0.042303 0.042305 0.042309 0.042311 0.042317 0.042321 0.042322 0.042328 0.042336 0.042340 0.042342 0.042345 0.042345 0.042351 0.042356 0.042357 0.042360 0.042365 0.042377 0.042382 0.042395 0.042399 0.042400 0.042420 0.042421 0.042431 0.042435 0.042435 0.042482 0.042482 0.042482 0.042489 0.042493 0.042513 0.042514 0.042521 0.042530 0.042542 0.042547 0.042558 0.042558 0.042564 0.042577 0.042578 0.042588 0.042591 0.042596 0.042600 0.042601 0.042614 0.042622 0.042622 0.042627 0.042629 0.042631 0.042632 0.042650 0.042651 0.042655 0.042659 0.042661 0.042679 0.042681 0.042683 0.042684 0.042700 0.042702 0.042716 0.042726 0.042763 0.042770 0.042788 0.042803 0.042811 0.042813 0.042820 0.042838 0.042855 0.042856 0.042863 0.042889 0.042899 0.042916 0.042926 0.042931 0.042996 0.043587 0.044219"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=2 --num-runs=100 --device=gpu':
+
+          71406758      cache-references
+          46429580      cache-misses              #   65.021 % of all cache refs
+
+       5.352664035 seconds time elapsed
+
+       5.140708000 seconds user
+       0.454295000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=4 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.011025 [s]
+run-time-stddev: 0.000087 [s]
+run-time-median: 0.011007 [s]
+run-time-min: 0.010931 [s]
+run-time-samples: "0.010931 0.010931 0.010936 0.010937 0.010939 0.010941 0.010943 0.010945 0.010945 0.010955 0.010956 0.010959 0.010960 0.010961 0.010965 0.010970 0.010970 0.010971 0.010972 0.010973 0.010973 0.010974 0.010976 0.010976 0.010978 0.010979 0.010980 0.010981 0.010981 0.010982 0.010983 0.010983 0.010984 0.010985 0.010985 0.010987 0.010989 0.010990 0.010991 0.010993 0.010994 0.010994 0.010997 0.010999 0.011000 0.011000 0.011003 0.011003 0.011005 0.011006 0.011007 0.011009 0.011009 0.011009 0.011011 0.011012 0.011013 0.011017 0.011020 0.011020 0.011022 0.011022 0.011022 0.011023 0.011024 0.011030 0.011032 0.011035 0.011035 0.011036 0.011037 0.011037 0.011042 0.011042 0.011043 0.011043 0.011044 0.011047 0.011050 0.011053 0.011056 0.011058 0.011059 0.011061 0.011062 0.011064 0.011064 0.011065 0.011075 0.011076 0.011079 0.011088 0.011091 0.011139 0.011271 0.011290 0.011317 0.011324 0.011329 0.011414"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=4 --num-runs=100 --device=gpu':
+
+          71505797      cache-references
+          46455499      cache-misses              #   64.967 % of all cache refs
+
+       2.196551056 seconds time elapsed
+
+       1.969534000 seconds user
+       0.456996000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=8 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.006538 [s]
+run-time-stddev: 0.000164 [s]
+run-time-median: 0.006524 [s]
+run-time-min: 0.006088 [s]
+run-time-samples: "0.006088 0.006194 0.006240 0.006245 0.006285 0.006290 0.006309 0.006310 0.006315 0.006335 0.006341 0.006347 0.006356 0.006369 0.006371 0.006373 0.006379 0.006392 0.006403 0.006404 0.006419 0.006424 0.006424 0.006439 0.006444 0.006445 0.006447 0.006448 0.006454 0.006455 0.006463 0.006469 0.006470 0.006472 0.006472 0.006476 0.006478 0.006479 0.006482 0.006482 0.006492 0.006494 0.006497 0.006508 0.006510 0.006511 0.006515 0.006517 0.006521 0.006523 0.006524 0.006527 0.006544 0.006556 0.006558 0.006559 0.006568 0.006571 0.006573 0.006576 0.006576 0.006579 0.006581 0.006585 0.006587 0.006587 0.006587 0.006590 0.006596 0.006609 0.006612 0.006618 0.006621 0.006623 0.006626 0.006629 0.006635 0.006649 0.006652 0.006653 0.006660 0.006664 0.006665 0.006698 0.006699 0.006699 0.006724 0.006726 0.006729 0.006739 0.006756 0.006762 0.006764 0.006812 0.006821 0.006848 0.006853 0.006924 0.006926 0.007021"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=8 --num-runs=100 --device=gpu':
+
+          70652248      cache-references
+          46012499      cache-misses              #   65.125 % of all cache refs
+
+       1.748616467 seconds time elapsed
+
+       1.544815000 seconds user
+       0.428225000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=16 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.005916 [s]
+run-time-stddev: 0.000133 [s]
+run-time-median: 0.005923 [s]
+run-time-min: 0.005614 [s]
+run-time-samples: "0.005614 0.005622 0.005634 0.005644 0.005668 0.005686 0.005690 0.005691 0.005705 0.005720 0.005721 0.005733 0.005751 0.005761 0.005778 0.005781 0.005787 0.005789 0.005793 0.005810 0.005813 0.005823 0.005833 0.005836 0.005838 0.005843 0.005848 0.005848 0.005849 0.005853 0.005856 0.005862 0.005863 0.005866 0.005871 0.005876 0.005877 0.005878 0.005888 0.005890 0.005896 0.005897 0.005897 0.005906 0.005907 0.005912 0.005916 0.005917 0.005918 0.005919 0.005923 0.005923 0.005924 0.005925 0.005933 0.005933 0.005934 0.005935 0.005941 0.005942 0.005948 0.005954 0.005954 0.005955 0.005959 0.005962 0.005971 0.005976 0.005984 0.005987 0.005998 0.006004 0.006006 0.006007 0.006008 0.006009 0.006012 0.006012 0.006014 0.006022 0.006037 0.006039 0.006041 0.006042 0.006046 0.006056 0.006068 0.006070 0.006074 0.006074 0.006076 0.006106 0.006110 0.006110 0.006115 0.006124 0.006151 0.006159 0.006165 0.006266"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=16 --num-runs=100 --device=gpu':
+
+          70647257      cache-references
+          46166884      cache-misses              #   65.348 % of all cache refs
+
+       1.688515058 seconds time elapsed
+
+       1.480988000 seconds user
+       0.423139000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=32 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.003383 [s]
+run-time-stddev: 0.000032 [s]
+run-time-median: 0.003382 [s]
+run-time-min: 0.003311 [s]
+run-time-samples: "0.003311 0.003318 0.003319 0.003320 0.003327 0.003331 0.003336 0.003343 0.003343 0.003343 0.003343 0.003344 0.003346 0.003346 0.003347 0.003348 0.003353 0.003353 0.003353 0.003354 0.003354 0.003355 0.003357 0.003360 0.003361 0.003361 0.003364 0.003364 0.003366 0.003367 0.003369 0.003370 0.003371 0.003371 0.003371 0.003372 0.003373 0.003374 0.003376 0.003376 0.003376 0.003378 0.003378 0.003378 0.003379 0.003379 0.003380 0.003380 0.003381 0.003381 0.003382 0.003383 0.003384 0.003386 0.003387 0.003387 0.003387 0.003389 0.003390 0.003390 0.003390 0.003391 0.003391 0.003393 0.003393 0.003394 0.003394 0.003394 0.003396 0.003396 0.003398 0.003399 0.003400 0.003402 0.003405 0.003406 0.003406 0.003408 0.003409 0.003409 0.003410 0.003411 0.003411 0.003413 0.003415 0.003417 0.003418 0.003421 0.003424 0.003425 0.003432 0.003434 0.003435 0.003438 0.003439 0.003441 0.003444 0.003450 0.003458 0.003460"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=32 --num-runs=100 --device=gpu':
+
+          70776996      cache-references
+          46122142      cache-misses              #   65.165 % of all cache refs
+
+       1.428667940 seconds time elapsed
+
+       1.248855000 seconds user
+       0.412122000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=64 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 64
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=64 --num-runs=100 --device=gpu':
+
+          14911617      cache-references
+          13526446      cache-misses              #   90.711 % of all cache refs
+
+       0.511616350 seconds time elapsed
+
+       0.090785000 seconds user
+       0.301241000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=128 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 128
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=128 --num-runs=100 --device=gpu':
+
+          14927141      cache-references
+          13530874      cache-misses              #   90.646 % of all cache refs
+
+       0.519575734 seconds time elapsed
+
+       0.071887000 seconds user
+       0.323492000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=256 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 256
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=256 --num-runs=100 --device=gpu':
+
+          14931566      cache-references
+          13535451      cache-misses              #   90.650 % of all cache refs
+
+       0.515384771 seconds time elapsed
+
+       0.093265000 seconds user
+       0.300071000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=512 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 512
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=512 --num-runs=100 --device=gpu':
+
+          14916741      cache-references
+          13532843      cache-misses              #   90.723 % of all cache refs
+
+       0.495665657 seconds time elapsed
+
+       0.089312000 seconds user
+       0.300414000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_hdp --size=1024 --local=1024 --num-runs=100 --device=gpu
+********** Results for MatMul_HDP_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_hdp: Aborted
+
+ Performance counter stats for './matmul_hdp --size=1024 --local=1024 --num-runs=100 --device=gpu':
+
+          14948086      cache-references
+          13532096      cache-misses              #   90.527 % of all cache refs
+
+       0.491622819 seconds time elapsed
+
+       0.101482000 seconds user
+       0.288211000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=1 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 1
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.164746 [s]
+run-time-stddev: 0.001287 [s]
+run-time-median: 0.164628 [s]
+run-time-min: 0.162767 [s]
+run-time-samples: "0.162767 0.162772 0.162780 0.162827 0.162846 0.162938 0.162943 0.163147 0.163184 0.163211 0.163215 0.163221 0.163269 0.163370 0.163396 0.163424 0.163461 0.163509 0.163551 0.163605 0.163634 0.163664 0.163690 0.163765 0.163779 0.163794 0.163925 0.163939 0.163977 0.163992 0.164125 0.164128 0.164160 0.164193 0.164225 0.164226 0.164252 0.164262 0.164277 0.164358 0.164365 0.164398 0.164402 0.164474 0.164507 0.164549 0.164562 0.164596 0.164597 0.164605 0.164628 0.164638 0.164652 0.164663 0.164675 0.164679 0.164732 0.164733 0.164761 0.164785 0.164856 0.164875 0.164906 0.164930 0.164976 0.165006 0.165089 0.165093 0.165122 0.165194 0.165226 0.165358 0.165491 0.165497 0.165604 0.165614 0.165667 0.165686 0.165690 0.165721 0.165724 0.165748 0.165792 0.165833 0.165849 0.166054 0.166060 0.166128 0.166169 0.166174 0.166206 0.166366 0.166470 0.166606 0.166804 0.167431 0.167877 0.168316 0.168571 0.169038"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=1 --num-runs=100 --device=gpu':
+
+          71586361      cache-references
+          46468268      cache-misses              #   64.912 % of all cache refs
+
+      17.576643811 seconds time elapsed
+
+      17.348948000 seconds user
+       0.464560000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=2 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 2
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.042633 [s]
+run-time-stddev: 0.000385 [s]
+run-time-median: 0.042573 [s]
+run-time-min: 0.042093 [s]
+run-time-samples: "0.042093 0.042114 0.042129 0.042139 0.042143 0.042143 0.042144 0.042161 0.042172 0.042217 0.042218 0.042263 0.042307 0.042335 0.042351 0.042363 0.042373 0.042381 0.042382 0.042405 0.042405 0.042415 0.042435 0.042438 0.042443 0.042451 0.042451 0.042455 0.042460 0.042463 0.042467 0.042474 0.042477 0.042480 0.042488 0.042491 0.042493 0.042494 0.042495 0.042503 0.042505 0.042506 0.042507 0.042508 0.042510 0.042525 0.042534 0.042535 0.042557 0.042557 0.042573 0.042573 0.042586 0.042586 0.042595 0.042597 0.042602 0.042613 0.042616 0.042619 0.042634 0.042637 0.042660 0.042660 0.042677 0.042679 0.042718 0.042719 0.042740 0.042762 0.042770 0.042771 0.042772 0.042774 0.042774 0.042785 0.042785 0.042800 0.042809 0.042812 0.042815 0.042817 0.042823 0.042831 0.042840 0.042842 0.042846 0.042854 0.042858 0.042860 0.042895 0.042905 0.042994 0.043248 0.043334 0.043542 0.043649 0.043776 0.043889 0.044653"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=2 --num-runs=100 --device=gpu':
+
+          71693300      cache-references
+          46405941      cache-misses              #   64.728 % of all cache refs
+
+       5.364610242 seconds time elapsed
+
+       5.184710000 seconds user
+       0.418316000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=4 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 4
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.011076 [s]
+run-time-stddev: 0.000082 [s]
+run-time-median: 0.011070 [s]
+run-time-min: 0.010936 [s]
+run-time-samples: "0.010936 0.010950 0.010960 0.010976 0.010978 0.010985 0.010988 0.010991 0.010993 0.010993 0.010994 0.010999 0.011002 0.011005 0.011007 0.011007 0.011008 0.011010 0.011012 0.011016 0.011023 0.011026 0.011027 0.011027 0.011029 0.011029 0.011032 0.011032 0.011034 0.011034 0.011041 0.011042 0.011043 0.011043 0.011043 0.011046 0.011048 0.011048 0.011052 0.011054 0.011055 0.011055 0.011056 0.011057 0.011060 0.011061 0.011061 0.011062 0.011064 0.011067 0.011070 0.011070 0.011071 0.011071 0.011072 0.011072 0.011073 0.011073 0.011078 0.011079 0.011081 0.011081 0.011083 0.011086 0.011086 0.011087 0.011088 0.011089 0.011092 0.011093 0.011093 0.011093 0.011095 0.011095 0.011095 0.011101 0.011101 0.011101 0.011102 0.011105 0.011111 0.011114 0.011115 0.011115 0.011116 0.011120 0.011124 0.011130 0.011136 0.011137 0.011139 0.011139 0.011163 0.011164 0.011244 0.011294 0.011301 0.011336 0.011392 0.011431"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=4 --num-runs=100 --device=gpu':
+
+          71013227      cache-references
+          46138646      cache-misses              #   64.972 % of all cache refs
+
+       2.216589408 seconds time elapsed
+
+       2.023985000 seconds user
+       0.417063000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=8 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 8
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.006536 [s]
+run-time-stddev: 0.000159 [s]
+run-time-median: 0.006531 [s]
+run-time-min: 0.005978 [s]
+run-time-samples: "0.005978 0.006179 0.006179 0.006242 0.006308 0.006327 0.006338 0.006346 0.006348 0.006353 0.006356 0.006357 0.006359 0.006364 0.006374 0.006390 0.006391 0.006395 0.006404 0.006406 0.006413 0.006415 0.006423 0.006424 0.006438 0.006442 0.006455 0.006458 0.006464 0.006464 0.006467 0.006472 0.006476 0.006480 0.006483 0.006484 0.006486 0.006491 0.006494 0.006496 0.006496 0.006499 0.006502 0.006503 0.006510 0.006517 0.006521 0.006525 0.006526 0.006528 0.006531 0.006536 0.006541 0.006542 0.006549 0.006555 0.006556 0.006557 0.006559 0.006560 0.006560 0.006566 0.006567 0.006569 0.006572 0.006574 0.006578 0.006584 0.006585 0.006597 0.006602 0.006628 0.006631 0.006637 0.006653 0.006656 0.006659 0.006663 0.006666 0.006666 0.006672 0.006678 0.006687 0.006699 0.006702 0.006714 0.006718 0.006727 0.006729 0.006739 0.006746 0.006757 0.006760 0.006762 0.006777 0.006777 0.006787 0.006844 0.006860 0.007000"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=8 --num-runs=100 --device=gpu':
+
+          70829492      cache-references
+          46050958      cache-misses              #   65.017 % of all cache refs
+
+       1.740551547 seconds time elapsed
+
+       1.518979000 seconds user
+       0.444872000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=16 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 16
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.005995 [s]
+run-time-stddev: 0.000131 [s]
+run-time-median: 0.006026 [s]
+run-time-min: 0.005704 [s]
+run-time-samples: "0.005704 0.005710 0.005718 0.005732 0.005735 0.005784 0.005792 0.005795 0.005801 0.005813 0.005820 0.005824 0.005826 0.005829 0.005830 0.005837 0.005837 0.005851 0.005853 0.005861 0.005879 0.005882 0.005886 0.005889 0.005890 0.005902 0.005915 0.005916 0.005919 0.005925 0.005926 0.005936 0.005941 0.005942 0.005952 0.005956 0.005958 0.005958 0.005968 0.005974 0.005982 0.005992 0.005992 0.005993 0.005999 0.006006 0.006010 0.006011 0.006022 0.006024 0.006026 0.006033 0.006035 0.006037 0.006037 0.006038 0.006041 0.006043 0.006045 0.006045 0.006048 0.006049 0.006058 0.006059 0.006061 0.006062 0.006065 0.006067 0.006068 0.006068 0.006069 0.006071 0.006075 0.006078 0.006082 0.006082 0.006085 0.006085 0.006086 0.006089 0.006093 0.006093 0.006094 0.006097 0.006099 0.006116 0.006133 0.006133 0.006137 0.006138 0.006142 0.006146 0.006157 0.006178 0.006181 0.006193 0.006220 0.006243 0.006252 0.006335"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=16 --num-runs=100 --device=gpu':
+
+          70691478      cache-references
+          46031577      cache-misses              #   65.116 % of all cache refs
+
+       1.696607279 seconds time elapsed
+
+       1.473605000 seconds user
+       0.437541000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=32 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 32
+device-name: Device 66af
+sycl-implementation: hipSYCL
+throughput-metric: N/A
+kernel-time-mean: N/A
+kernel-time-stddev: N/A
+kernel-time-median: N/A
+kernel-time-min: N/A
+kernel-time-samples: N/A
+kernel-time-throughput: N/A
+run-time-mean: 0.003398 [s]
+run-time-stddev: 0.000035 [s]
+run-time-median: 0.003401 [s]
+run-time-min: 0.003286 [s]
+run-time-samples: "0.003286 0.003320 0.003332 0.003335 0.003338 0.003342 0.003348 0.003349 0.003349 0.003352 0.003354 0.003354 0.003356 0.003358 0.003359 0.003360 0.003363 0.003365 0.003367 0.003368 0.003371 0.003375 0.003376 0.003376 0.003377 0.003379 0.003379 0.003379 0.003380 0.003383 0.003383 0.003384 0.003384 0.003385 0.003385 0.003386 0.003386 0.003386 0.003387 0.003388 0.003390 0.003391 0.003392 0.003393 0.003394 0.003395 0.003395 0.003397 0.003397 0.003398 0.003401 0.003402 0.003402 0.003403 0.003403 0.003403 0.003404 0.003404 0.003404 0.003405 0.003405 0.003406 0.003407 0.003408 0.003411 0.003412 0.003412 0.003412 0.003413 0.003413 0.003414 0.003419 0.003420 0.003420 0.003423 0.003424 0.003424 0.003424 0.003424 0.003427 0.003427 0.003428 0.003432 0.003432 0.003435 0.003438 0.003438 0.003439 0.003440 0.003444 0.003448 0.003449 0.003450 0.003454 0.003457 0.003459 0.003462 0.003464 0.003466 0.003486"
+run-time-throughput: N/A
+Verification: PASS
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=32 --num-runs=100 --device=gpu':
+
+          70635076      cache-references
+          45978777      cache-misses              #   65.093 % of all cache refs
+
+       1.428545325 seconds time elapsed
+
+       1.190675000 seconds user
+       0.465740000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=64 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 64
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_wgp: Aborted
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=64 --num-runs=100 --device=gpu':
+
+          14935819      cache-references
+          13517002      cache-misses              #   90.501 % of all cache refs
+
+       0.515641219 seconds time elapsed
+
+       0.085364000 seconds user
+       0.304871000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=128 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 128
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_wgp: Aborted
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=128 --num-runs=100 --device=gpu':
+
+          14922534      cache-references
+          13518319      cache-misses              #   90.590 % of all cache refs
+
+       0.512347524 seconds time elapsed
+
+       0.101894000 seconds user
+       0.289381000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=256 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 256
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_wgp: Aborted
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=256 --num-runs=100 --device=gpu':
+
+          14944832      cache-references
+          13520439      cache-misses              #   90.469 % of all cache refs
+
+       0.511894415 seconds time elapsed
+
+       0.089891000 seconds user
+       0.302362000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=512 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 512
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_wgp: Aborted
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=512 --num-runs=100 --device=gpu':
+
+          14916326      cache-references
+          13507193      cache-misses              #   90.553 % of all cache refs
+
+       0.519517304 seconds time elapsed
+
+       0.093937000 seconds user
+       0.298149000 seconds sys
+
+
+root@radeon:/workspace/codes/sycl-bench/new-build-hipsycl-rocm# perf stat -B -e cache-references,cache-misses ./matmul_wgp --size=1024 --local=1024 --num-runs=100 --device=gpu
+********** Results for MatMul_WGP_fp32**********
+problem-size: 1024
+local-size: 1024
+device-name: Device 66af
+sycl-implementation: hipSYCL
+### HCC STATUS_CHECK Error: HSA_STATUS_ERROR_INVALID_ARGUMENT (0x1001) at file:mcwamp_hsa.cpp line:1221
+./matmul_wgp: Aborted
+
+ Performance counter stats for './matmul_wgp --size=1024 --local=1024 --num-runs=100 --device=gpu':
+
+          14926674      cache-references
+          13512853      cache-misses              #   90.528 % of all cache refs
+
+       0.507643830 seconds time elapsed
+
+       0.087264000 seconds user
+       0.301460000 seconds sys
+
+
