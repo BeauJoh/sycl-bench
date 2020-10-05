@@ -8,7 +8,7 @@ However, this fork provides a [Dockerfile](./Dockerfile) --for reproducibility o
 We also offer the source-code used in our deep-dive of the matrix multiplication example, implemented in 3 different SYCL parallel execution constructs and a serial baseline [[matmul_serial.cpp](./single-kernel/matmul_serial.cpp)]; 
 basic  kernel  parallelism (BKP) [[matmul_bkp.cpp](./single-kernel/matmul_bkp.cpp)], work-group parallelism (WGP) [[matmul_wgp.cpp](./single-kernel/matmul_wgp.cpp)], and hierarchical data-parallelism (HDP) [[matmul_hdp.cpp](./single-kernel/matmul_hdp.cpp)].
 
-The dynamic Jupyter notebook, found in [sycl-performance.ipynb](./sycl-performance.ipynb), shows how sycl-bench was run and the results plotted.
+The dynamic Jupyter notebook, found in [sycl-performance.ipynb](https://mybinder.org/v2/gh/BeauJoh/sycl-bench/master?filepath=sycl-performance.ipynb), shows how sycl-bench was run and the results plotted.
 A static webpage of the analysis presented in the paper is found [here](./sycl-performance.html).
 
 Docker was run with:
