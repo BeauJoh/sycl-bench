@@ -19,7 +19,7 @@ followed by:
 ```beakerx --allow-root```
 to start the Jupyter session.
 
-If you have any questions about this analysis please contact me.
+If you have any questions please contact me :)
 
 
 Beau Johnston
