@@ -1,4 +1,14 @@
-# SYCL-Bench
+# Evaluating the Performance Portability of Contemporary SYCL Implementations 
+
+The majority of this repository is cloned from @bcosenza which offers the SYCL-Bench(mark) suite.
+
+However, this fork provides a Dockerfile --for reproducibility of the 4 SYCL implementations-- and a Jupyter notebook for interpretability and to highlight our methodology around how data is collected, analysed and presented.
+
+
+We also offer our deep-dive of the matrix multiplication example, implemented in 3 of the 4 different SYCL parallel execution constructs and a serial baseline [[matmul_serial](./single-kernel/matmul_serial.cpp)]; 
+basic  kernel  parallelism (BKP) [[matmul_bkp](./single-kernel/matmul_bkp.cpp)], work-group parallelism (WGP) [matmul_bkp](./single-kernel/matmul_wgp.cpp), and  hierarchical data-parallelism (HDP) [matmul_hdp](./single-kernel/matmul_hdp.cpp).
+
+## SYCL-Bench
 SYCL Benchmark Suite, work in progress
 
 Benchmarks support the following command line arguments:
