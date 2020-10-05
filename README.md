@@ -28,6 +28,8 @@ Computer Scientist @ Oak Ridge National Laboratory <johnstonbe@ornl.gov>
 
 Visiting Fellow @ Australian National University <beau.johnston@anu.edu.au>
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/BeauJoh/sycl-bench/master?filepath=sycl-performance.ipynb)
+
 ## SYCL-Bench
 SYCL Benchmark Suite, work in progress
 
