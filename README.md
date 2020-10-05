@@ -21,10 +21,10 @@ to start the Jupyter session.
 
 If you have any questions about this analysis please contact me.
 
+
 Beau Johnston
 
 Computer Scientist @ Oak Ridge National Laboratory <johnstonbe@ornl.gov>
-
 Visiting Fellow @ Australian National University <beau.johnston@anu.edu.au>
 
 ## SYCL-Bench
