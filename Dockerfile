@@ -357,11 +357,11 @@ RUN apt-get update && apt-get install -y hipsycl-rocm
 RUN sh ./install-llvm.sh && sh ./install-cuda.sh && sh ./install-hipsycl.sh
 
 #Install sycl-gtx
-WORKDIR /tmp
-git clone https://github.com/ProGTX/sycl-gtx.git
-WORKDIR /tmp/sycl-gtx/build
-RUN CC=gcc CXX=g++ cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/sycl-gtx
-RUN make -j8 && make install
+#WORKDIR /tmp
+#RUN git clone https://github.com/ProGTX/sycl-gtx.git
+#WORKDIR /tmp/sycl-gtx/build
+#RUN CC=gcc CXX=g++ cmake .. -DCMAKE_INSTALL_PREFIX=/tmp/sycl-gtx
+#RUN make -j8 && make install
 
 # Compile sycl-bench
 #WORKDIR /
