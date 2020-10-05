@@ -2,11 +2,30 @@
 
 The majority of this repository is cloned from @bcosenza which offers the SYCL-Bench(mark) suite.
 
-However, this fork provides a Dockerfile --for reproducibility of the 4 SYCL implementations-- and a Jupyter notebook for interpretability and to highlight our methodology around how data is collected, analysed and presented.
+However, this fork provides a [Dockerfile](./Dockerfile) --for reproducibility of the 4 SYCL implementations-- and a Jupyter notebook for interpretability and to highlight our methodology around how data is collected, analysed and presented.
 
 
-We also offer our deep-dive of the matrix multiplication example, implemented in 3 of the 4 different SYCL parallel execution constructs and a serial baseline [[matmul_serial](./single-kernel/matmul_serial.cpp)]; 
-basic  kernel  parallelism (BKP) [[matmul_bkp](./single-kernel/matmul_bkp.cpp)], work-group parallelism (WGP) [matmul_bkp](./single-kernel/matmul_wgp.cpp), and  hierarchical data-parallelism (HDP) [matmul_hdp](./single-kernel/matmul_hdp.cpp).
+We also offer the source-code used in our deep-dive of the matrix multiplication example, implemented in 3 different SYCL parallel execution constructs and a serial baseline [[matmul_serial.cpp](./single-kernel/matmul_serial.cpp)]; 
+basic  kernel  parallelism (BKP) [[matmul_bkp.cpp](./single-kernel/matmul_bkp.cpp)], work-group parallelism (WGP) [[matmul_wgp.cpp](./single-kernel/matmul_wgp.cpp)], and hierarchical data-parallelism (HDP) [[matmul_hdp.cpp](./single-kernel/matmul_hdp.cpp)].
+
+The dynamic Jupyter notebook, found in [sycl-performance.ipynb](./sycl-performance.ipynb), shows how sycl-bench was run and the results are plotted from within Docker.
+A static webpage of the analysis presented in the paper is found [here](./sycl-performance.html).
+
+Docker was run with:
+
+```docker run --device=/dev/dri --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=1 -it --mount src=`pwd`,target=/workspace,type=bind -p 8888:8888 --net=host --security-opt seccomp=unconfined --group-add video beaujoh/syclbench:latest bash```
+
+followed by:
+```beakerx --allow-root```
+to start the Jupyter session.
+
+If you have any questions about this analysis please contact me.
+
+Beau Johnston
+
+Computer Scientist @ Oak Ridge National Laboratory <johnstonbe@ornl.gov>
+
+Visiting Fellow @ Australian National University <beau.johnston@anu.edu.au>
 
 ## SYCL-Bench
 SYCL Benchmark Suite, work in progress
